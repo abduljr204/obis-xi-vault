@@ -118,8 +118,8 @@ export default async function HomePage() {
         </Reveal>
         <div className="grid gap-5 md:grid-cols-2">
           {[
-            { label: "Football", slug: "football", img: "/products/royal-halves-jersey-front.svg", copy: "Home, away and third kits." },
-            { label: "Basketball", slug: "basketball", img: "/products/vault-metro-hardwood-jersey-front.svg", copy: "Court-ready and city editions." },
+            { label: "Football", slug: "football", img: "/products/barcelona-home-front.jpg", copy: "Home, away and third kits." },
+            { label: "Basketball", slug: "basketball", img: "/products/knicks-brunson-11-front.jpg", copy: "Court-ready and city editions." },
           ].map((s, i) => (
             <Reveal key={s.slug} delay={i * 120}>
               <Link
