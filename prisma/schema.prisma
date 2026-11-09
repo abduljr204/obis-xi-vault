@@ -1,13 +1,13 @@
 // Obi's XI Vault — database schema
-// Local development uses SQLite. To use Postgres in production, change
-// `provider` below to "postgresql" and set DATABASE_URL (see README).
+// Uses Postgres. Set DATABASE_URL to a Postgres connection string (see README):
+// a separate database for your computer and for the live site.
 
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 

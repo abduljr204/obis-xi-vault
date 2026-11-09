@@ -21,11 +21,11 @@ export default async function RequestsPage({ searchParams }: { searchParams: Pro
     ...(status && { status }),
     ...(q && {
       OR: [
-        { requestNumber: { contains: q.toUpperCase() } },
-        { name: { contains: q } },
-        { email: { contains: q.toLowerCase() } },
-        { team: { contains: q } },
-        { player: { contains: q } },
+        { requestNumber: { contains: q, mode: "insensitive" } },
+        { name: { contains: q, mode: "insensitive" } },
+        { email: { contains: q, mode: "insensitive" } },
+        { team: { contains: q, mode: "insensitive" } },
+        { player: { contains: q, mode: "insensitive" } },
       ],
     }),
   };

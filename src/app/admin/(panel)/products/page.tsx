@@ -15,7 +15,9 @@ export default async function ProductsPage({ searchParams }: { searchParams: Pro
   const sp = await searchParams;
   const q = sp.q?.trim().slice(0, 60);
   const products = await db.product.findMany({
-    where: q ? { OR: [{ name: { contains: q } }, { collection: { contains: q } }] } : undefined,
+    where: q
+      ? { OR: [{ name: { contains: q, mode: "insensitive" } }, { collection: { contains: q, mode: "insensitive" } }] }
+      : undefined,
     orderBy: { createdAt: "desc" },
     include: { images: { orderBy: { sortOrder: "asc" }, take: 1 }, _count: { select: { orderItems: true } } },
   });
