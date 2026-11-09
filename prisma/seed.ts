@@ -1,10 +1,10 @@
-// Seeds the database with demo jerseys (and optionally the first admin).
+// Seeds the database with the starter jersey catalogue (and optionally the first admin).
 // Run with:  npm run db:seed
+//
+// Product photos live in public/products/ and come from Wikimedia Commons under free
+// licences. Credits are listed in src/lib/photo-credits.json and shown on /credits.
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcryptjs";
-import { mkdirSync, writeFileSync } from "node:fs";
-import path from "node:path";
-import { jerseyBack, jerseyFront, type JerseySpec } from "./jersey-art";
 
 const db = new PrismaClient();
 
@@ -17,152 +17,250 @@ type Seed = {
   sizes: string[];
   featured?: boolean;
   description: string;
-  art: JerseySpec;
+  /** File names in public/products/, first one is the main photo */
+  images: string[];
 };
 
 const FB = ["S", "M", "L", "XL", "XXL"];
 const BB = ["S", "M", "L", "XL", "XXL", "3XL"];
 
 const products: Seed[] = [
+  // ───────────── Football ─────────────
   {
-    slug: "vault-metro-home-jersey",
-    name: "Vault Metro Home Jersey",
+    slug: "fc-barcelona-2010-11-home-jersey",
+    name: "FC Barcelona 2010/11 Home Jersey",
     collection: "Metro",
+    sport: "FOOTBALL",
+    price: 8999,
+    sizes: FB,
+    featured: true,
+    description:
+      "The blaugrana stripes from one of the greatest club seasons ever played. Garnet and blue body, gold-trimmed collar and cuffs, and the famous front-of-shirt partnership.",
+    images: ["barcelona-2010-home.jpg"],
+  },
+  {
+    slug: "fc-barcelona-2005-06-home-ronaldinho-10",
+    name: "FC Barcelona 2005/06 Home – Ronaldinho 10",
+    collection: "Classic",
+    sport: "FOOTBALL",
+    price: 9499,
+    sizes: FB,
+    featured: true,
+    description:
+      "The shirt of the Champions League-winning season, with Ronaldinho 10 printed on the back. Classic garnet and blue stripes with a V-neck collar.",
+    images: ["barcelona-2005-home.jpg", "barcelona-2005-home-back.jpg"],
+  },
+  {
+    slug: "real-madrid-2006-07-home-beckham-23",
+    name: "Real Madrid 2006/07 Home – Beckham 23",
+    collection: "Classic",
+    sport: "FOOTBALL",
+    price: 9499,
+    sizes: FB,
+    featured: true,
+    description:
+      "All-white Los Blancos home shirt with Beckham 23 on the back, from the season that ended with a league title. Navy lettering and clean contrast piping.",
+    images: ["real-madrid-2007-home-beckham.jpg"],
+  },
+  {
+    slug: "manchester-united-1990-92-home-jersey",
+    name: "Manchester United 1990–92 Home Jersey",
+    collection: "Retro",
     sport: "FOOTBALL",
     price: 7999,
     sizes: FB,
-    featured: true,
     description:
-      "Our signature home shirt. Jet-black body with fine ivory pinstripes, a crowned crest and a clean crew collar. Lightweight, breathable knit built for match day and the streets after.",
-    art: { kind: "football", base: "#0b0b0b", accent: "#e9e4d8", trim: "#e9e4d8", text: "#f4efe6", pattern: "pinstripes", number: "10", wordmark: "METRO" },
+      "Early-90s red with white collar, three-stripe sleeves and the iconic sponsor across the chest. A favourite from the era that started a dynasty.",
+    images: ["man-united-1990-home.jpg"],
   },
   {
-    slug: "vault-metro-away-jersey",
-    name: "Vault Metro Away Jersey",
-    collection: "Metro",
-    sport: "FOOTBALL",
-    price: 7999,
-    sizes: FB,
-    featured: true,
-    description:
-      "The away counterpart: ivory base cut by a bold black sash. Moisture-wicking fabric, tailored athletic fit and a tonal crest.",
-    art: { kind: "football", base: "#efeae0", accent: "#111111", trim: "#111111", text: "#111111", pattern: "sash", number: "7" },
-  },
-  {
-    slug: "classic-98-stripes-jersey",
-    name: "Classic '98 Stripes Jersey",
+    slug: "sporting-cp-2002-03-home-ronaldo-28",
+    name: "Sporting CP 2002/03 Home – Ronaldo 28",
     collection: "Classic",
     sport: "FOOTBALL",
-    price: 6999,
+    price: 9499,
     sizes: FB,
     featured: true,
     description:
-      "A love letter to late-90s terraces. Crimson and white vertical stripes, contrast black collar and a relaxed vintage fit.",
-    art: { kind: "football", base: "#f2f0ea", accent: "#c8102e", trim: "#111111", text: "#111111", pattern: "stripes", number: "9" },
+      "Green and white hoops with Ronaldo 28 on the back, the number he wore as a teenager in Lisbon before leaving for Manchester.",
+    images: ["sporting-ronaldo-28.jpg"],
   },
   {
-    slug: "classic-emerald-hoops-jersey",
-    name: "Classic Emerald Hoops Jersey",
-    collection: "Classic",
-    sport: "FOOTBALL",
-    price: 6999,
-    sizes: FB,
-    description: "Emerald and white hoops, a timeless look. Soft-touch fabric with ribbed collar and cuffs.",
-    art: { kind: "football", base: "#f4f2ec", accent: "#0b7a3e", trim: "#0b7a3e", text: "#0b3d22", pattern: "hoops", number: "8" },
-  },
-  {
-    slug: "royal-halves-jersey",
-    name: "Royal Halves Jersey",
+    slug: "river-plate-2026-27-home-jersey",
+    name: "River Plate 2026/27 Home Jersey",
     collection: "New",
+    sport: "FOOTBALL",
+    price: 9999,
+    sizes: FB,
+    featured: true,
+    description: "The newest Millonarios home shirt: white body with the famous red sash, three-stripe shoulders and a crew collar.",
+    images: ["river-plate-home.jpg"],
+  },
+  {
+    slug: "brazil-2016-home-jersey",
+    name: "Brazil 2016 Home Jersey",
+    collection: "Metro",
     sport: "FOOTBALL",
     price: 8499,
     sizes: FB,
-    featured: true,
-    description: "Split down the middle in navy and gold. A statement shirt from the newest drop with gold crown detailing.",
-    art: { kind: "football", base: "#0f1f4a", accent: "#c9a447", trim: "#c9a447", text: "#f6efdc", pattern: "halves", number: "11" },
+    description: "The canary-yellow Seleção shirt with green trim and the CBF crest. Lightweight, breathable and made for hot match days.",
+    images: ["brazil-2016-home.jpg"],
   },
   {
-    slug: "crown-chevron-third-jersey",
-    name: "Crown Chevron Third Jersey",
-    collection: "New",
-    sport: "FOOTBALL",
-    price: 8499,
-    sizes: FB,
-    description: "Deep violet third kit with an ivory chevron across the chest, inspired by the crown in our crest.",
-    art: { kind: "football", base: "#3a1d5c", accent: "#efe6d2", trim: "#efe6d2", text: "#f7f1e3", pattern: "chevron", number: "4" },
-  },
-  {
-    slug: "retro-sky-jersey",
-    name: "Retro Sky Jersey",
+    slug: "germany-1998-world-cup-home-jersey",
+    name: "Germany 1998 World Cup Home Jersey",
     collection: "Retro",
     sport: "FOOTBALL",
-    price: 6499,
-    sizes: ["S", "M", "L", "XL"],
-    description: "Sky blue with a navy collar: a clean throwback silhouette with a boxy retro cut.",
-    art: { kind: "football", base: "#78b7e6", accent: "#78b7e6", trim: "#14234a", text: "#14234a", pattern: "solid", number: "5", wordmark: "XI" },
-  },
-  {
-    slug: "vault-metro-hardwood-jersey",
-    name: "Vault Metro Hardwood Jersey",
-    collection: "Metro",
-    sport: "BASKETBALL",
-    price: 8999,
-    sizes: BB,
-    featured: true,
-    description: "Built for the court. Black mesh body, gold trim and a bold METRO wordmark. Breathable, with stitched-feel numbers.",
-    art: { kind: "basketball", base: "#0d0d0d", accent: "#0d0d0d", trim: "#c9a447", text: "#f4efe6", pattern: "solid", number: "23", wordmark: "METRO" },
-  },
-  {
-    slug: "classic-96-pinstripe-jersey",
-    name: "Classic '96 Pinstripe Jersey",
-    collection: "Classic",
-    sport: "BASKETBALL",
-    price: 7999,
-    sizes: BB,
-    featured: true,
-    description: "Mid-90s pinstripes on a crisp white body with navy trim. The jersey your favourite poster was wearing.",
-    art: { kind: "basketball", base: "#f6f4ee", accent: "#1d2b5c", trim: "#1d2b5c", text: "#1d2b5c", pattern: "pinstripes", number: "33", wordmark: "VAULT" },
-  },
-  {
-    slug: "night-court-jersey",
-    name: "Night Court Jersey",
-    collection: "New",
-    sport: "BASKETBALL",
-    price: 8999,
-    sizes: BB,
-    description: "Deep crimson with black side panels and ivory numbers. Lightweight mesh for late-night runs.",
-    art: { kind: "basketball", base: "#8e0f1f", accent: "#111111", trim: "#111111", text: "#f4efe6", pattern: "panels", number: "1", wordmark: "NIGHT" },
-  },
-  {
-    slug: "golden-era-jersey",
-    name: "Golden Era Jersey",
-    collection: "Retro",
-    sport: "BASKETBALL",
     price: 7499,
-    sizes: BB,
-    description: "Gold body, purple trim, pure nostalgia. A retro cut with a slightly longer length.",
-    art: { kind: "basketball", base: "#e2b23a", accent: "#e2b23a", trim: "#4b2a7a", text: "#4b2a7a", pattern: "solid", number: "8", wordmark: "GOLDEN" },
+    sizes: FB,
+    description: "White home shirt from France '98 with the black, red and gold chest band and three stars above the crest.",
+    images: ["germany-1998-home.jpg"],
   },
   {
-    slug: "skyline-city-jersey",
-    name: "Skyline City Jersey",
+    slug: "celtic-1977-hoops-jersey",
+    name: "Celtic 1977 Hoops Jersey",
+    collection: "Retro",
+    sport: "FOOTBALL",
+    price: 6999,
+    sizes: FB,
+    description: "Long-sleeved green and white hoops with a white polo collar, the look of the 1977 Scottish Cup final.",
+    images: ["celtic-1977-hoops.jpg"],
+  },
+  {
+    slug: "boca-juniors-1907-retro-jersey",
+    name: "Boca Juniors 1907 Retro Jersey",
+    collection: "Retro",
+    sport: "FOOTBALL",
+    price: 6999,
+    sizes: ["S", "M", "L", "XL"],
+    description: "A tribute to Boca's early days: sky-blue body with a yellow diagonal sash and a lace-up collar.",
+    images: ["boca-1907-retro.jpg"],
+  },
+
+  // ───────────── Basketball ─────────────
+  {
+    slug: "chicago-bulls-jordan-23-red-jersey",
+    name: "Chicago Bulls Jordan 23 Red Jersey",
+    collection: "Classic",
+    sport: "BASKETBALL",
+    price: 10999,
+    sizes: BB,
+    featured: true,
+    description: "The road red of the 90s dynasty with Jordan 23 in white and black. The most famous number in basketball.",
+    images: ["bulls-jordan-23.jpg", "bulls-jordan-23-pair.jpg"],
+  },
+  {
+    slug: "los-angeles-lakers-kobe-bryant-8-jersey",
+    name: "Los Angeles Lakers Kobe Bryant 8 Jersey",
+    collection: "Classic",
+    sport: "BASKETBALL",
+    price: 10999,
+    sizes: BB,
+    featured: true,
+    description: "Forum purple with gold and white trim and Bryant 8 on the back, the number from Kobe's first three titles.",
+    images: ["lakers-kobe-8.jpg"],
+  },
+  {
+    slug: "los-angeles-lakers-lebron-23-icon-jersey",
+    name: "Los Angeles Lakers LeBron 23 Jersey",
     collection: "New",
+    sport: "BASKETBALL",
+    price: 9999,
+    sizes: BB,
+    featured: true,
+    description: "The modern white Lakers shirt with purple and gold script and number 23, as worn by LeBron James.",
+    images: ["lakers-lebron-23.jpg"],
+  },
+  {
+    slug: "atlanta-hawks-steve-smith-8-jersey",
+    name: "Atlanta Hawks Steve Smith 8 Jersey",
+    collection: "Retro",
     sport: "BASKETBALL",
     price: 8999,
     sizes: BB,
-    description: "Teal city edition with an orange chevron, inspired by skyline sunsets. Part of the newest drop.",
-    art: { kind: "basketball", base: "#0f6f73", accent: "#f08a24", trim: "#f08a24", text: "#f7f3ea", pattern: "chevron", number: "3", wordmark: "SKYLINE" },
+    description: "Late-90s Hawks road jersey with the red-to-black fade and the hawk holding a basketball on the chest.",
+    images: ["hawks-smith-8.jpg", "hawks-smith-8-back.jpg"],
+  },
+  {
+    slug: "indiana-pacers-tinsley-11-pinstripe-jersey",
+    name: "Indiana Pacers Tinsley 11 Pinstripe Jersey",
+    collection: "Retro",
+    sport: "BASKETBALL",
+    price: 8999,
+    sizes: BB,
+    description: "Navy pinstripes with gold lettering and side panels, the Pacers look of the early 2000s.",
+    images: ["pacers-tinsley-11.jpg", "pacers-tinsley-11-back.jpg"],
+  },
+  {
+    slug: "denver-nuggets-rainbow-issel-44-jersey",
+    name: "Denver Nuggets Rainbow Issel 44 Jersey",
+    collection: "Retro",
+    sport: "BASKETBALL",
+    price: 9499,
+    sizes: BB,
+    description: "The beloved 80s skyline-and-rainbow design with Issel 44. One of the most loved retro jerseys in the game.",
+    images: ["nuggets-issel-44.jpg"],
+  },
+  {
+    slug: "los-angeles-clippers-norman-3-jersey",
+    name: "Los Angeles Clippers Norman 3 Jersey",
+    collection: "Retro",
+    sport: "BASKETBALL",
+    price: 7999,
+    sizes: BB,
+    description: "Early-90s Clippers road red with blue and white trim and Norman 3 on the back.",
+    images: ["clippers-norman-3.jpg"],
+  },
+  {
+    slug: "san-antonio-spurs-anderson-40-jersey",
+    name: "San Antonio Spurs Anderson 40 Jersey",
+    collection: "Retro",
+    sport: "BASKETBALL",
+    price: 7999,
+    sizes: BB,
+    description: "Classic black road Spurs jersey with the arched San Antonio wordmark and number 40.",
+    images: ["spurs-anderson-40.jpg"],
+  },
+  {
+    slug: "georgetown-hoyas-ewing-33-jersey",
+    name: "Georgetown Hoyas Ewing 33 Jersey",
+    collection: "Classic",
+    sport: "BASKETBALL",
+    price: 8499,
+    sizes: BB,
+    description: "Navy and grey Georgetown jersey with number 33, as worn by Patrick Ewing during the Hoyas' 1980s run.",
+    images: ["georgetown-ewing-33.jpg"],
+  },
+  {
+    slug: "uconn-huskies-hamilton-32-jersey",
+    name: "UConn Huskies Hamilton 32 Jersey",
+    collection: "Classic",
+    sport: "BASKETBALL",
+    price: 8499,
+    sizes: BB,
+    description: "White UConn home jersey with navy Connecticut lettering and number 32, as worn by Rip Hamilton in the 1999 title run.",
+    images: ["uconn-hamilton-32.jpg"],
   },
 ];
 
+// Earlier versions of this seed created illustrated sample jerseys. Hide them if they exist.
+const RETIRED_SLUGS = [
+  "vault-metro-home-jersey",
+  "vault-metro-away-jersey",
+  "classic-98-stripes-jersey",
+  "classic-emerald-hoops-jersey",
+  "royal-halves-jersey",
+  "crown-chevron-third-jersey",
+  "retro-sky-jersey",
+  "vault-metro-hardwood-jersey",
+  "classic-96-pinstripe-jersey",
+  "night-court-jersey",
+  "golden-era-jersey",
+  "skyline-city-jersey",
+];
+
 async function main() {
-  const outDir = path.join(process.cwd(), "public", "products");
-  mkdirSync(outDir, { recursive: true });
-
-  for (const [i, p] of products.entries()) {
-    writeFileSync(path.join(outDir, `${p.slug}-front.svg`), jerseyFront(p.art, `p${i}`));
-    writeFileSync(path.join(outDir, `${p.slug}-back.svg`), jerseyBack(p.art, `p${i}`));
-
+  for (const p of products) {
     const data = {
       name: p.name,
       collection: p.collection,
@@ -176,13 +274,18 @@ async function main() {
     const product = await db.product.upsert({ where: { slug: p.slug }, create: { slug: p.slug, ...data }, update: data });
     await db.productImage.deleteMany({ where: { productId: product.id, url: { startsWith: "/products/" } } });
     await db.productImage.createMany({
-      data: [
-        { productId: product.id, url: `/products/${p.slug}-front.svg`, alt: `${p.name} front`, sortOrder: 0 },
-        { productId: product.id, url: `/products/${p.slug}-back.svg`, alt: `${p.name} back`, sortOrder: 1 },
-      ],
+      data: p.images.map((file, i) => ({
+        productId: product.id,
+        url: `/products/${file}`,
+        alt: i === 0 ? p.name : `${p.name} – photo ${i + 1}`,
+        sortOrder: i,
+      })),
     });
   }
   console.log(`✓ Seeded ${products.length} products`);
+
+  const retired = await db.product.updateMany({ where: { slug: { in: RETIRED_SLUGS } }, data: { active: false, featured: false } });
+  if (retired.count) console.log(`✓ Hid ${retired.count} old sample products`);
 
   const email = process.env.ADMIN_EMAIL?.trim().toLowerCase();
   const password = process.env.ADMIN_PASSWORD;

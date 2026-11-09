@@ -36,6 +36,7 @@ export function Footer() {
             <li>Secure checkout by Stripe</li>
             <li>Tracked worldwide shipping</li>
             <li><Link className="hover:text-ivory" href="/cart">Your cart</Link></li>
+            <li><Link className="hover:text-ivory" href="/credits">Photo credits</Link></li>
           </ul>
         </div>
       </div>
