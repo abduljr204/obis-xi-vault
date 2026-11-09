@@ -1,0 +1,122 @@
+// Obi's XI Vault — database schema
+// Local development uses SQLite. To use Postgres in production, change
+// `provider` below to "postgresql" and set DATABASE_URL (see README).
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Admin {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  name         String?
+  passwordHash String
+  createdAt    DateTime @default(now())
+}
+
+model Product {
+  id          String         @id @default(cuid())
+  slug        String         @unique
+  name        String
+  /// Style / collection, e.g. "Metro", "Classic", "New"
+  collection  String
+  /// "FOOTBALL" | "BASKETBALL"
+  sport       String
+  /// Price in the smallest currency unit (cents)
+  price       Int
+  description String
+  /// JSON array of size labels, e.g. ["S","M","L"]
+  sizes       String
+  featured    Boolean        @default(false)
+  active      Boolean        @default(true)
+  images      ProductImage[]
+  orderItems  OrderItem[]
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+
+  @@index([sport])
+  @@index([collection])
+  @@index([active])
+}
+
+model ProductImage {
+  id        String  @id @default(cuid())
+  url       String
+  alt       String  @default("")
+  sortOrder Int     @default(0)
+  productId String
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@index([productId])
+}
+
+model Order {
+  id              String      @id @default(cuid())
+  /// Human friendly number shown to customers, e.g. OXV-10042
+  orderNumber     String      @unique
+  /// NEW | SENT_TO_SUPPLIER | SHIPPED | COMPLETED | CANCELLED
+  status          String      @default("NEW")
+  /// PENDING | PAID | FAILED | REFUNDED
+  paymentStatus   String      @default("PENDING")
+  /// "stripe" or "demo" (simulated payment in local development)
+  paymentProvider String      @default("stripe")
+  stripeSessionId String?     @unique
+  stripePaymentId String?
+  currency        String
+  subtotal        Int
+  shippingCost    Int
+  total           Int
+
+  customerName    String
+  email           String
+  phone           String
+  addressLine1    String
+  addressLine2    String?
+  city            String
+  state           String?
+  postalCode      String
+  country         String
+  customerNote    String?
+
+  trackingNumber  String?
+  carrier         String?
+  adminNotes      String?
+
+  items           OrderItem[]
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+  paidAt          DateTime?
+
+  @@index([status])
+  @@index([paymentStatus])
+  @@index([createdAt])
+}
+
+model OrderItem {
+  id          String   @id @default(cuid())
+  orderId     String
+  order       Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  /// Kept nullable so orders survive if a product is later deleted
+  productId   String?
+  product     Product? @relation(fields: [productId], references: [id], onDelete: SetNull)
+  /// Snapshots taken at purchase time
+  productName String
+  collection  String
+  sport       String
+  imageUrl    String?
+  size        String
+  quantity    Int
+  unitPrice   Int
+
+  @@index([orderId])
+}
+
+model Counter {
+  id    String @id
+  value Int
+}

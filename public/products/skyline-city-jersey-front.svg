@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" width="800" height="1000">
+  <defs>
+    <radialGradient id="bg-p11-f" cx="50%" cy="42%" r="70%">
+      <stop offset="0" stop-color="#1d1d1d"/><stop offset="1" stop-color="#050505"/>
+    </radialGradient>
+    <linearGradient id="shade-p11-f" x1="0" x2="1">
+      <stop offset="0" stop-color="#000" stop-opacity=".35"/>
+      <stop offset=".22" stop-color="#000" stop-opacity="0"/>
+      <stop offset=".5" stop-color="#fff" stop-opacity=".07"/>
+      <stop offset=".78" stop-color="#000" stop-opacity="0"/>
+      <stop offset="1" stop-color="#000" stop-opacity=".35"/>
+    </linearGradient>
+    <clipPath id="clip-p11-f"><path d="M332,170 Q400,262 468,170 L526,176 Q540,312 616,370 L606,808 Q400,832 194,808 L184,370 Q260,312 274,176 Z"/></clipPath>
+    <filter id="drop-p11-f" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="24" stdDeviation="22" flood-color="#000" flood-opacity=".7"/>
+    </filter>
+  </defs>
+  <rect width="800" height="1000" fill="url(#bg-p11-f)"/>
+  <ellipse cx="400" cy="860" rx="250" ry="22" fill="#000" opacity=".6"/>
+  <g filter="url(#drop-p11-f)">
+    <path d="M332,170 Q400,262 468,170 L526,176 Q540,312 616,370 L606,808 Q400,832 194,808 L184,370 Q260,312 274,176 Z" fill="#0f6f73"/>
+    <g clip-path="url(#clip-p11-f)">
+      <polygon points="190,300 400,470 610,300 610,390 400,560 190,390" fill="#f08a24"/>
+      <text x="400" y="395" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-weight="700" font-size="62" letter-spacing="6" fill="#f7f3ea">SKYLINE</text>
+         <text x="400" y="590" text-anchor="middle" font-family="'Arial Black', 'Helvetica Neue', Arial, sans-serif" font-weight="900" font-size="190" fill="#f7f3ea" stroke="#f08a24" stroke-width="6" paint-order="stroke">3</text>
+      <rect width="800" height="1000" fill="url(#shade-p11-f)"/>
+    </g>
+    <path d="M332,170 Q400,262 468,170" fill="none" stroke="#f08a24" stroke-width="16"/>
+    <path d="M526,176 Q540,312 616,370" fill="none" stroke="#f08a24" stroke-width="14"/>
+    <path d="M274,176 Q260,312 184,370" fill="none" stroke="#f08a24" stroke-width="14"/>
+    <path d="M332,170 Q400,262 468,170 L526,176 Q540,312 616,370 L606,808 Q400,832 194,808 L184,370 Q260,312 274,176 Z" fill="none" stroke="#000" stroke-opacity=".35" stroke-width="3"/>
+  </g>
+  <text x="400" y="955" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="20" letter-spacing="8" fill="#6f6c66">OBI'S XI VAULT</text>
+</svg>

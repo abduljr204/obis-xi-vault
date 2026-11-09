@@ -1,0 +1,252 @@
+@import "tailwindcss";
+
+/* ───────────────────────────────────────────────────────────
+   Obi's XI Vault design tokens — taken from the logo:
+   pure black, warm ivory, engraved serif + wide-tracked sans.
+   ─────────────────────────────────────────────────────────── */
+@theme {
+  --color-ink: #000000;
+  --color-coal: #0a0a0a;
+  --color-panel: #111111;
+  --color-raise: #181818;
+  --color-line: #262626;
+  --color-line-strong: #3a3a3a;
+  --color-ivory: #f3efe6;
+  --color-bone: #d9d4c8;
+  --color-mute: #8f8b83;
+  --color-faint: #5d5a55;
+  --color-gold: #c9a447;
+  --color-ok: #7ccf9a;
+  --color-warn: #e8c46a;
+  --color-bad: #f08383;
+
+  --font-display: var(--font-cinzel), "Trajan Pro", Georgia, serif;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --animate-marquee: marquee 38s linear infinite;
+  --animate-twinkle: twinkle 3.2s ease-in-out infinite;
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-fade-up: fade-up 0.9s var(--ease-out-expo) both;
+  --animate-fade-in: fade-in 0.6s ease both;
+  --animate-shine: shine 4.5s ease-in-out infinite;
+
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+  @keyframes twinkle {
+    0%, 100% { opacity: 1; transform: scale(1) rotate(0deg); }
+    50% { opacity: 0.45; transform: scale(0.78) rotate(45deg); }
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+  @keyframes fade-up {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes shine {
+    0% { background-position: -150% 0; }
+    60%, 100% { background-position: 250% 0; }
+  }
+}
+
+@layer base {
+  html {
+    background: var(--color-ink);
+    color-scheme: dark;
+    -webkit-tap-highlight-color: transparent;
+  }
+  body {
+    background: var(--color-ink);
+    color: var(--color-ivory);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  ::selection {
+    background: var(--color-ivory);
+    color: var(--color-ink);
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-ivory);
+    outline-offset: 3px;
+  }
+  input, select, textarea, button {
+    font: inherit;
+  }
+}
+
+@layer components {
+  .font-display {
+    font-family: var(--font-display);
+    letter-spacing: 0.02em;
+  }
+  /* The small, widely spaced caps used under the logo */
+  .eyebrow {
+    font-family: var(--font-sans);
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--color-mute);
+  }
+  .container-x {
+    margin-inline: auto;
+    width: 100%;
+    max-width: 80rem;
+    padding-inline: 1.25rem;
+  }
+  @media (min-width: 768px) {
+    .container-x { padding-inline: 2rem; }
+  }
+
+  .btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    min-height: 3rem;
+    padding: 0 1.75rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    border-radius: 999px;
+    transition: transform 0.25s var(--ease-out-expo), background-color 0.25s, color 0.25s, border-color 0.25s, opacity 0.2s;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+  .btn:active { transform: scale(0.97); }
+  .btn:disabled { opacity: 0.45; cursor: not-allowed; }
+  .btn-primary {
+    background: var(--color-ivory);
+    color: var(--color-ink);
+  }
+  .btn-primary:not(:disabled):hover { background: #fff; transform: translateY(-1px); }
+  .btn-primary::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(110deg, transparent 30%, rgba(255, 255, 255, 0.75) 50%, transparent 70%);
+    background-size: 200% 100%;
+    background-position: -150% 0;
+    pointer-events: none;
+  }
+  .btn-primary:not(:disabled):hover::after { animation: var(--animate-shine); }
+  .btn-ghost {
+    border: 1px solid var(--color-line-strong);
+    color: var(--color-ivory);
+  }
+  .btn-ghost:not(:disabled):hover { border-color: var(--color-ivory); background: rgba(243, 239, 230, 0.06); }
+  .btn-danger {
+    border: 1px solid rgba(240, 131, 131, 0.4);
+    color: var(--color-bad);
+  }
+  .btn-danger:not(:disabled):hover { background: rgba(240, 131, 131, 0.1); border-color: var(--color-bad); }
+  .btn-sm { min-height: 2.25rem; padding: 0 1.1rem; font-size: 0.68rem; }
+
+  .field-label {
+    display: block;
+    margin-bottom: 0.45rem;
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--color-bone);
+  }
+  .input {
+    width: 100%;
+    min-height: 3rem;
+    padding: 0.75rem 1rem;
+    background: var(--color-panel);
+    border: 1px solid var(--color-line);
+    border-radius: 0.75rem;
+    color: var(--color-ivory);
+    transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+  }
+  .input::placeholder { color: var(--color-faint); }
+  .input:hover { border-color: var(--color-line-strong); }
+  .input:focus { outline: none; border-color: var(--color-ivory); box-shadow: 0 0 0 3px rgba(243, 239, 230, 0.12); }
+  .input[aria-invalid="true"] { border-color: var(--color-bad); }
+  select.input {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none' stroke='%23f3efe6' stroke-width='1.5'%3E%3Cpath d='M1 1.5l5 5 5-5'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    padding-right: 2.5rem;
+  }
+  .field-error {
+    margin-top: 0.4rem;
+    font-size: 0.8rem;
+    color: var(--color-bad);
+  }
+
+  .card {
+    background: var(--color-coal);
+    border: 1px solid var(--color-line);
+    border-radius: 1.25rem;
+  }
+
+  /* Hairline divider with a centred sparkle, as under the wordmark */
+  .divider-star {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    color: var(--color-ivory);
+  }
+  .divider-star::before,
+  .divider-star::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--color-line-strong));
+  }
+  .divider-star::after { background: linear-gradient(90deg, var(--color-line-strong), transparent); }
+
+  .grain {
+    position: relative;
+  }
+  .grain::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.06;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* Scroll-reveal (see components/Reveal.tsx) */
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.9s var(--ease-out-expo), transform 0.9s var(--ease-out-expo);
+    transition-delay: var(--reveal-delay, 0ms);
+  }
+  .reveal.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .reveal { opacity: 1; transform: none; }
+}
+
+@keyframes draw {
+  to { stroke-dashoffset: 0; }
+}
