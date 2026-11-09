@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { ALL_SIZES, MAX_CART_LINES, MAX_QTY_PER_LINE, ORDER_STATUS_VALUES, SPORT_VALUES } from "./constants";
+import { ALL_SIZES, MAX_CART_LINES, MAX_QTY_PER_LINE, MAX_REQUEST_QTY, ORDER_STATUS_VALUES, REQUEST_STATUS_VALUES, SPORT_VALUES } from "./constants";
 
 export type FieldErrors = Record<string, string>;
 
@@ -42,6 +42,39 @@ export const checkoutSchema = z.object({
   items: z.array(cartLineSchema).min(1, "Your cart is empty").max(MAX_CART_LINES, "Too many items in cart"),
 });
 export type CheckoutInput = z.infer<typeof checkoutSchema>;
+
+// ── Jersey request (public form) ────────────────────────────
+export const jerseyRequestSchema = z.object({
+  name: text("Your name", 100),
+  email: z.string({ error: "Email is required" }).trim().toLowerCase().pipe(z.email("Enter a valid email address")),
+  phone: z
+    .string()
+    .trim()
+    .optional()
+    .transform((v) => (v ? v : undefined))
+    .pipe(z.string().regex(/^\+?[0-9 ()\-.]{7,20}$/, "Enter a valid phone number").optional()),
+  sport: z.enum(SPORT_VALUES, { error: "Choose a sport" }),
+  team: text("Team", 100),
+  season: optionalText(80),
+  player: optionalText(80),
+  size: z.enum(ALL_SIZES, { error: "Choose a size" }),
+  quantity: z.coerce.number({ error: "Enter a quantity" }).int("Enter a whole number").min(1, "At least 1").max(MAX_REQUEST_QTY, `Maximum ${MAX_REQUEST_QTY}`),
+  budget: optionalText(60),
+  referenceUrl: z
+    .string()
+    .trim()
+    .optional()
+    .transform((v) => (v ? v : undefined))
+    .pipe(z.url({ protocol: /^https?$/, error: "Enter a full link starting with https://" }).max(500, "Link is too long").optional()),
+  notes: optionalText(1000),
+});
+export const REQUEST_FIELDS = ["name", "email", "phone", "sport", "team", "season", "player", "size", "quantity", "budget", "referenceUrl", "notes"] as const;
+export type JerseyRequestInput = z.infer<typeof jerseyRequestSchema>;
+
+export const requestUpdateSchema = z.object({
+  status: z.enum(REQUEST_STATUS_VALUES, { error: "Choose a status" }),
+  adminNotes: optionalText(2000),
+});
 
 // ── Admin: products ─────────────────────────────────────────
 export const productSchema = z.object({

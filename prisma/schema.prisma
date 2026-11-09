@@ -120,3 +120,35 @@ model Counter {
   id    String @id
   value Int
 }
+
+/// A customer asking us to source a jersey we don't list yet
+model JerseyRequest {
+  id            String   @id @default(cuid())
+  /// Human friendly number shown to customers, e.g. REQ-10042
+  requestNumber String   @unique
+  /// NEW | SOURCING | QUOTED | FULFILLED | DECLINED
+  status        String   @default("NEW")
+  name          String
+  email         String
+  phone         String?
+  /// "FOOTBALL" | "BASKETBALL"
+  sport         String
+  team          String
+  /// Season / year / version, e.g. "2024/25 Home" or "1998 retro"
+  season        String?
+  /// Name and number to print on the back
+  player        String?
+  size          String
+  quantity      Int      @default(1)
+  /// Free text, e.g. "up to $120"
+  budget        String?
+  /// Link to a photo or listing of the jersey
+  referenceUrl  String?
+  notes         String?
+  adminNotes    String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([status])
+  @@index([createdAt])
+}

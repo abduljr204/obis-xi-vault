@@ -133,8 +133,11 @@ export default async function ShopPage({ searchParams }: { searchParams: Promise
           {products.length === 0 ? (
             <div className="card flex flex-col items-center gap-4 px-6 py-20 text-center">
               <p className="font-display text-2xl">Nothing in the vault matches that.</p>
-              <p className="text-mute">Try a different size or collection.</p>
-              <Link href="/shop" className="btn btn-ghost btn-sm mt-2">Clear filters</Link>
+              <p className="text-mute">Try a different size or collection, or ask us to find it for you.</p>
+              <div className="mt-2 flex flex-wrap justify-center gap-3">
+                <Link href="/shop" className="btn btn-ghost btn-sm">Clear filters</Link>
+                <Link href={`/request${filters.q ? `?team=${encodeURIComponent(filters.q)}` : ""}${sport ? `${filters.q ? "&" : "?"}sport=${sport.toLowerCase()}` : ""}`} className="btn btn-primary btn-sm">Request a jersey</Link>
+              </div>
             </div>
           ) : (
             <ul className="grid grid-cols-2 gap-x-4 gap-y-10 sm:gap-x-6 xl:grid-cols-3">
@@ -145,6 +148,13 @@ export default async function ShopPage({ searchParams }: { searchParams: Promise
               ))}
             </ul>
           )}
+          <div className="card mt-14 flex flex-col items-start justify-between gap-4 p-6 sm:flex-row sm:items-center sm:p-8">
+            <div>
+              <p className="font-display text-xl font-semibold">Can&rsquo;t find your jersey?</p>
+              <p className="mt-1 text-sm text-mute">Tell us the team, season and size, and we&rsquo;ll try to track it down for you.</p>
+            </div>
+            <Link href="/request" className="btn btn-primary btn-sm shrink-0">Request a jersey</Link>
+          </div>
         </div>
       </div>
     </div>

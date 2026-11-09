@@ -13,6 +13,7 @@ const NAV = [
   { href: "/shop?sport=basketball", label: "Basketball" },
   { href: "/shop?collection=New", label: "New in" },
   { href: "/shop?collection=Classic", label: "Classics" },
+  { href: "/request", label: "Request a jersey" },
 ];
 
 function CartIcon({ className }: { className?: string }) {

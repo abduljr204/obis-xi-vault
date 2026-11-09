@@ -5,6 +5,7 @@ Online store for football and basketball jerseys, styled to match the Obi's XI V
 **What's included**
 
 - **Storefront:** home, catalog (filter by sport, style/collection and size, plus search and sort), product pages with a photo gallery and size picker, cart, checkout and order confirmation.
+- **Request a jersey:** a form at `/request` where customers ask you to find a jersey you don't list (team, season, name & number, size, quantity, budget, reference link). Requests show up in the admin area under **Requests**, where you can track them (New → Sourcing → Quote sent → Fulfilled / Declined), reply by email and copy the details for your supplier.
 - **Payments:** Stripe Checkout. Card details are entered on Stripe's own page and never reach or get stored on this server.
 - **Admin area** at `/admin`, protected by a password:
   - add, edit, hide or delete products, and upload photos

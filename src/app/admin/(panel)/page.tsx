@@ -6,18 +6,20 @@ import { formatMoney } from "@/lib/money";
 
 export default async function Dashboard() {
   const since = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
-  const [toProcess, sent, revenue, productCount, recent] = await Promise.all([
+  const [toProcess, sent, revenue, productCount, recent, newRequests] = await Promise.all([
     db.order.count({ where: { status: "NEW", paymentStatus: "PAID" } }),
     db.order.count({ where: { status: "SENT_TO_SUPPLIER" } }),
     db.order.aggregate({ _sum: { total: true }, _count: true, where: { paymentStatus: "PAID", createdAt: { gte: since } } }),
     db.product.count({ where: { active: true } }),
     db.order.findMany({ orderBy: { createdAt: "desc" }, take: 8, include: { _count: { select: { items: true } } } }),
+    db.jerseyRequest.count({ where: { status: "NEW" } }),
   ]);
 
   const stats = [
     { label: "Paid orders to send to supplier", value: toProcess, href: "/admin/orders?status=NEW&payment=PAID" },
     { label: "Waiting on supplier", value: sent, href: "/admin/orders?status=SENT_TO_SUPPLIER" },
     { label: "Revenue, last 30 days", value: formatMoney(revenue._sum.total ?? 0, storeConfig.currency), sub: `${revenue._count} paid orders` },
+    { label: "New jersey requests", value: newRequests, href: "/admin/requests?status=NEW" },
     { label: "Live products", value: productCount, href: "/admin/products" },
   ];
 
@@ -37,7 +39,7 @@ export default async function Dashboard() {
         </div>
       )}
 
-      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-5">
         {stats.map((s) => {
           const inner = (
             <>

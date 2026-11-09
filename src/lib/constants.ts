@@ -48,3 +48,18 @@ export function paymentStatusLabel(v: string) {
 
 export const MAX_QTY_PER_LINE = 10;
 export const MAX_CART_LINES = 30;
+
+// ── Jersey requests (customers asking us to source a jersey) ─
+export const REQUEST_STATUSES = [
+  { value: "NEW", label: "New" },
+  { value: "SOURCING", label: "Sourcing" },
+  { value: "QUOTED", label: "Quote sent" },
+  { value: "FULFILLED", label: "Fulfilled" },
+  { value: "DECLINED", label: "Declined" },
+] as const;
+export type RequestStatus = (typeof REQUEST_STATUSES)[number]["value"];
+export const REQUEST_STATUS_VALUES = REQUEST_STATUSES.map((s) => s.value) as [RequestStatus, ...RequestStatus[]];
+export function requestStatusLabel(v: string) {
+  return REQUEST_STATUSES.find((s) => s.value === v)?.label ?? v;
+}
+export const MAX_REQUEST_QTY = 20;

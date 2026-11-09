@@ -10,6 +10,7 @@ const LINKS = [
   { href: "/admin", label: "Dashboard", icon: "M3 12l9-8 9 8M5 10v10h14V10" },
   { href: "/admin/orders", label: "Orders", icon: "M6 2h9l5 5v15H6zM14 2v6h6M9 13h8M9 17h8" },
   { href: "/admin/products", label: "Products", icon: "M8 3l4 2 4-2 5 4-3 3-2-1v12H8V9l-2 1-3-3z" },
+  { href: "/admin/requests", label: "Requests", icon: "M4 5h16v11H8l-4 4zM8 9h8M8 12h5" },
 ];
 
 export function AdminNav({ email, logout }: { email: string; logout: () => Promise<void> }) {
