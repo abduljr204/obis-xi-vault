@@ -133,6 +133,65 @@ const products: Seed[] = [
       "Canary-yellow home shirt with navy collar and cuffs, a tonal crest pattern across the front and the CA crest on the chest.",
     images: photos("club-america-home"),
   },
+  {
+    slug: "france-1998-world-cup-home-zidane-10",
+    name: "France 1998 World Cup Home – Zidane 10",
+    collection: "Retro",
+    sport: "FOOTBALL",
+    price: 11999,
+    sizes: FB,
+    featured: true,
+    description:
+      "Royal blue with red and white chest bands, a white polo collar, the FIFA World Cup France 98 and Brésil–France 12-07-98 final details on the chest, and Zidane 10 on the front and back.",
+    images: photos("france-1998-zidane-10"),
+  },
+  {
+    slug: "netherlands-1988-home-gullit-10",
+    name: "Netherlands 1988 Home – Gullit 10",
+    collection: "Retro",
+    sport: "FOOTBALL",
+    price: 9999,
+    sizes: FB,
+    featured: true,
+    description:
+      "The Euro 88 classic: bright orange with the white geometric print, a white V-neck, three-stripe sleeves and the KNVB lion, with Gullit 10 on the back.",
+    images: photos("netherlands-1988-gullit-10"),
+  },
+  {
+    slug: "inter-milan-1997-98-third-ronaldo-10-long-sleeve",
+    name: "Inter Milan 1997/98 Third – Ronaldo 10 (Long Sleeve)",
+    collection: "Retro",
+    sport: "FOOTBALL",
+    price: 12999,
+    sizes: FB,
+    featured: true,
+    description:
+      "Long-sleeved grey and black hoops with blue trim, the Pirelli sponsor and the star above the crest in gold, and Ronaldo 10 in yellow on the back, from his first season in Milan.",
+    images: photos("inter-1997-ronaldo-10"),
+  },
+  {
+    slug: "arsenal-2005-06-highbury-home-henry-14",
+    name: "Arsenal 2005/06 Highbury Home – Henry 14",
+    collection: "Classic",
+    sport: "FOOTBALL",
+    price: 11499,
+    sizes: FB,
+    featured: true,
+    description:
+      "The redcurrant shirt made for Arsenal's last season at Highbury, with a gold O2 sponsor, the Highbury 1913–2006 crest detail and Henry 14 in gold on the back.",
+    images: photos("arsenal-2005-henry-14"),
+  },
+  {
+    slug: "ac-milan-2006-07-home-kaka-22",
+    name: "AC Milan 2006/07 Home – Kaká 22",
+    collection: "Classic",
+    sport: "FOOTBALL",
+    price: 11499,
+    sizes: FB,
+    description:
+      "Red and black stripes with curved gold piping, a polo collar and the star above the crest, with Kaká 22 in gold on the back.",
+    images: photos("ac-milan-2006-kaka-22"),
+  },
 
   // ───────────── Basketball ─────────────
   {
@@ -260,6 +319,50 @@ const products: Seed[] = [
     description:
       "Black jersey with blurred red and blue stripes rising from the hem, a striped V-neck, white side bars and the Paris wordmark. Plain back with a small club emblem.",
     images: photos("paris-basketball"),
+  },
+  {
+    slug: "philadelphia-76ers-maxey-0-icon-jersey",
+    name: "Philadelphia 76ers Tyrese Maxey 0 Icon Jersey",
+    collection: "New",
+    sport: "BASKETBALL",
+    price: 10999,
+    sizes: BB,
+    description:
+      "Royal blue with red and white trim, the Phila wordmark, white side panels with three stars and Maxey 0 on the back.",
+    images: photos("sixers-maxey-0"),
+  },
+  {
+    slug: "cleveland-cavaliers-james-23-black-sleeved-jersey",
+    name: "Cleveland Cavaliers LeBron James 23 Black Sleeved Jersey",
+    collection: "Classic",
+    sport: "BASKETBALL",
+    price: 10499,
+    sizes: BB,
+    description:
+      "Short-sleeved black alternate with a wine and gold striped V-neck, the big C on the chest with 23 above it, and James 23 on the back.",
+    images: photos("cavaliers-james-23-sleeved"),
+  },
+  {
+    slug: "georgetown-hoyas-1995-96-iverson-3-jersey",
+    name: "Georgetown Hoyas 1995/96 Allen Iverson 3 Jersey",
+    collection: "Retro",
+    sport: "BASKETBALL",
+    price: 10499,
+    sizes: BB,
+    description:
+      "Grey college jersey with navy and black trim, kente-cloth side panels, the Hoyas wordmark and Iverson 3 on the back.",
+    images: photos("georgetown-iverson-3"),
+  },
+  {
+    slug: "toronto-raptors-1999-00-carter-15-road-jersey",
+    name: "Toronto Raptors 1999/00 Vince Carter 15 Road Jersey",
+    collection: "Retro",
+    sport: "BASKETBALL",
+    price: 10499,
+    sizes: BB,
+    description:
+      "Purple road jersey with the arched Toronto wordmark, black side panels with silver stripes and red piping, and Carter 15 on the back.",
+    images: photos("raptors-carter-15-1999"),
   },
 ];
 

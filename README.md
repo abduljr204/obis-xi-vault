@@ -33,7 +33,7 @@ obis-xi-vault/
 ├─ Start Store.bat            ← double-click to run the site on Windows
 ├─ prisma/
 │  ├─ schema.prisma           ← database tables (products, orders, admins)
-│  └─ seed.ts                 ← 20 starter jerseys (9 football, 11 basketball)
+│  └─ seed.ts                 ← 29 starter jerseys (14 football, 15 basketball)
 ├─ scripts/
 │  ├─ setup.mjs               ← first-time setup
 │  └─ create-admin.ts         ← create an admin or reset a password
