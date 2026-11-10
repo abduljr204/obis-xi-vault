@@ -192,6 +192,63 @@ const products: Seed[] = [
       "Red and black stripes with curved gold piping, a polo collar and the star above the crest, with Kaká 22 in gold on the back.",
     images: photos("ac-milan-2006-kaka-22"),
   },
+  {
+    slug: "west-germany-1990-away-jersey",
+    name: "West Germany 1990 Away Jersey",
+    collection: "Retro",
+    sport: "FOOTBALL",
+    price: 9999,
+    sizes: FB,
+    description:
+      "The green away shirt from the summer West Germany won the World Cup. Bold green and white geometric print, a fold-over collar and white three-stripe shoulders.",
+    images: photos("germany-1990-away"),
+  },
+  {
+    slug: "real-madrid-1998-2000-home-jersey",
+    name: "Real Madrid 1998–2000 Home Jersey",
+    collection: "Retro",
+    sport: "FOOTBALL",
+    price: 10499,
+    sizes: FB,
+    description:
+      "White home shirt from the era of the club's eighth European Cup, with a navy fold-over collar trimmed in gold, navy three-stripe shoulders and a Champions League patch on the sleeve.",
+    images: photos("real-madrid-1998-home"),
+  },
+  {
+    slug: "paris-saint-germain-home-dembele-10",
+    name: "Paris Saint-Germain Home – Dembélé 10",
+    collection: "New",
+    sport: "FOOTBALL",
+    price: 10999,
+    sizes: FB,
+    description:
+      "Navy home shirt with the famous red centre stripe edged in white, red and white cuffs, and Dembélé 10 on the back.",
+    images: photos("psg-dembele-10"),
+  },
+  {
+    slug: "real-madrid-2012-13-away-ronaldo-7",
+    name: "Real Madrid 2012/13 Away – Ronaldo 7",
+    collection: "Classic",
+    sport: "FOOTBALL",
+    price: 11499,
+    sizes: FB,
+    featured: true,
+    description:
+      "Navy away shirt from 2012/13 with neon-yellow shoulder stripes and piping, the gold club crest, a league patch on the sleeve and Ronaldo 7 on the back.",
+    images: photos("real-madrid-2012-away-ronaldo-7"),
+  },
+  {
+    slug: "inter-miami-home-messi-10",
+    name: "Inter Miami Home – Messi 10",
+    collection: "New",
+    sport: "FOOTBALL",
+    price: 10999,
+    sizes: FB,
+    featured: true,
+    description:
+      "Pink home shirt with tonal stripes, a black collar, cuffs and shoulder stripes, the club crest and Messi 10 on the back.",
+    images: photos("inter-miami-messi-10"),
+  },
 
   // ───────────── Basketball ─────────────
   {
@@ -363,6 +420,62 @@ const products: Seed[] = [
     description:
       "Purple road jersey with the arched Toronto wordmark, black side panels with silver stripes and red piping, and Carter 15 on the back.",
     images: photos("raptors-carter-15-1999"),
+  },
+  {
+    slug: "toronto-raptors-1998-99-carter-15-road-jersey",
+    name: "Toronto Raptors 1998/99 Vince Carter 15 Road Jersey",
+    collection: "Retro",
+    sport: "BASKETBALL",
+    price: 10499,
+    sizes: BB,
+    description:
+      "Purple road jersey from Carter's rookie season, with jagged pinstripes, the red dinosaur logo, red and black trim and Carter 15 on the back.",
+    images: photos("raptors-carter-15-1998-road"),
+  },
+  {
+    slug: "minnesota-timberwolves-edwards-5-classic-edition-jersey",
+    name: "Minnesota Timberwolves Anthony Edwards 5 Classic Edition Jersey",
+    collection: "Metro",
+    sport: "BASKETBALL",
+    price: 10999,
+    sizes: BB,
+    description:
+      "Black throwback design with evergreen-tree trim around the collar and armholes, green tree panels down the sides, the Timberwolves wordmark and Edwards 5 on the back.",
+    images: photos("timberwolves-edwards-5"),
+  },
+  {
+    slug: "houston-rockets-durant-7-icon-jersey",
+    name: "Houston Rockets Kevin Durant 7 Icon Jersey",
+    collection: "New",
+    sport: "BASKETBALL",
+    price: 10999,
+    sizes: BB,
+    description: "Rockets red with black side panels and white piping, the Rockets wordmark across the chest and Durant 7 on the back.",
+    images: photos("rockets-durant-7"),
+  },
+  {
+    slug: "san-antonio-spurs-wembanyama-1-icon-jersey",
+    name: "San Antonio Spurs Victor Wembanyama 1 Icon Jersey",
+    collection: "New",
+    sport: "BASKETBALL",
+    price: 10999,
+    sizes: BB,
+    featured: true,
+    description:
+      "Black Spurs jersey with silver and white side panels, the spur wordmark across the chest and Wembanyama 1 on the back.",
+    images: photos("spurs-wembanyama-1"),
+  },
+  {
+    slug: "los-angeles-lakers-doncic-77-icon-jersey",
+    name: "Los Angeles Lakers Luka Dončić 77 Icon Jersey",
+    collection: "New",
+    sport: "BASKETBALL",
+    price: 10999,
+    sizes: BB,
+    featured: true,
+    description:
+      "Lakers gold with purple side panels and white trim, the Lakers script across the chest and Dončić 77 on the back.",
+    images: photos("lakers-doncic-77"),
   },
 ];
 
