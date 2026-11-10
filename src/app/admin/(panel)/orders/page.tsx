@@ -21,7 +21,13 @@ export default async function OrdersPage({ searchParams }: { searchParams: Promi
   const where: Prisma.OrderWhereInput = {
     ...(status && { status }),
     ...(payment && { paymentStatus: payment }),
-    ...(q && { OR: [{ orderNumber: { contains: q.toUpperCase() } }, { customerName: { contains: q } }, { email: { contains: q.toLowerCase() } }] }),
+    ...(q && {
+      OR: [
+        { orderNumber: { contains: q, mode: "insensitive" } },
+        { customerName: { contains: q, mode: "insensitive" } },
+        { email: { contains: q, mode: "insensitive" } },
+      ],
+    }),
   };
 
   const [orders, total, counts] = await Promise.all([

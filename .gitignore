@@ -12,9 +12,10 @@ next-env.d.ts
 .env.local
 .env.*.local
 
-# local database
+# local database (old SQLite file) and first-time setup marker
 prisma/*.db
 prisma/*.db-journal
+.setup-done
 
 # uploaded product photos (kept locally / in blob storage)
 uploads/*

@@ -20,7 +20,7 @@ Online store for football and basketball jerseys, styled to match the Obi's XI V
 | Part | Choice | Why |
 |---|---|---|
 | Framework | **Next.js 15 (App Router) + TypeScript** | Frontend and backend in one project, server-rendered pages for speed and SEO, easy to deploy |
-| Database | **Prisma ORM**: SQLite locally, Postgres in production | Nothing to install for local use; switching to Postgres for production is a one-line change |
+| Database | **Prisma ORM** + **Postgres** | Free hosted Postgres (Neon or Prisma Postgres) works on your computer and on the live site; nothing to install |
 | Payments | **Stripe Checkout** | Stripe hosts the card form (PCI compliant), supports many currencies, Apple Pay and Google Pay |
 | Styling | **Tailwind CSS 4** + Cinzel and Inter fonts | Matches the logo's engraved serif and wide-spaced capitals |
 | Validation | **Zod** | The same rules check forms in the browser and on the server |
@@ -33,12 +33,12 @@ obis-xi-vault/
 ├─ Start Store.bat            ← double-click to run the site on Windows
 ├─ prisma/
 │  ├─ schema.prisma           ← database tables (products, orders, admins)
-│  └─ seed.ts                 ← 18 starter jerseys (15 football, 3 basketball)
+│  └─ seed.ts                 ← 29 starter jerseys (14 football, 15 basketball)
 ├─ scripts/
 │  ├─ setup.mjs               ← first-time setup
 │  └─ create-admin.ts         ← create an admin or reset a password
 ├─ public/brand/logo.jpg      ← your logo
-├─ public/products/           ← starter jersey photos (front and back of each)
+├─ public/products/           ← starter jersey photos (front + back for each)
 ├─ uploads/                   ← photos uploaded from the admin area (local mode)
 └─ src/
    ├─ app/
@@ -57,15 +57,15 @@ obis-xi-vault/
 
 ## Run it on your computer
 
-You need **Node.js 20 or newer** (https://nodejs.org).
+You need **Node.js 20 or newer** (https://nodejs.org) and a free **Postgres database** for your computer (create one at https://neon.tech or https://console.prisma.io). Use a different database from the live site, so test orders never mix with real ones.
 
-**Easiest way (Windows):** double-click **`Start Store.bat`**. The first time, it installs everything, creates the database with sample products, then opens http://localhost:3000.
+**Easiest way (Windows):** double-click **`Start Store.bat`**. The first time, it installs everything and creates `.env`, then asks you to put your database's connection string in `.env` as `DATABASE_URL`. Run it again and it creates the tables with sample products, then opens http://localhost:3000.
 
 **Or use a terminal:**
 
 ```bash
 npm install
-npm run setup        # creates .env, the database and sample products
+npm run setup        # creates .env; once DATABASE_URL is set, creates the tables and sample products
 npm run admin:create # create your admin login (asks for email + password)
 npm run dev          # start the site at http://localhost:3000
 ```
@@ -105,7 +105,7 @@ Without Stripe keys the site runs in **demo mode** on your computer: orders are 
 
 1. **Push the code to GitHub** (see below).
 2. **Database:** create a free Postgres database at https://neon.tech (or Supabase or Railway) and copy its connection string.
-3. In `prisma/schema.prisma`, change `provider = "sqlite"` to `provider = "postgresql"` and commit.
+3. (The code already uses Postgres; nothing to change.)
 4. **Vercel:** https://vercel.com → *Add New Project* → import your GitHub repo.
 5. In Vercel → **Storage**, create a **Blob** store and connect it to the project. This adds `BLOB_READ_WRITE_TOKEN` so uploaded photos are kept permanently.
 6. In Vercel → **Settings → Environment Variables**, add:
@@ -127,7 +127,7 @@ Without Stripe keys the site runs in **demo mode** on your computer: orders are 
    (In PowerShell, run `$env:DATABASE_URL="postgresql://..."` first, then the commands without the prefix.)
 8. Deploy, then add your domain in Vercel → **Domains**.
 
-**Alternative:** any Node host with a persistent disk (Railway, Render, a VPS) can run `npm run build && npm start`. That setup can keep SQLite and the local `uploads/` folder.
+**Alternative:** any Node host with a persistent disk (Railway, Render, a VPS) can run `npm run build && npm start`. That setup can keep the local `uploads/` folder for photos.
 
 ## Day-to-day
 

@@ -30,7 +30,10 @@ export async function getCatalog(filters: CatalogFilters) {
     where.sizes = { contains: `"${filters.size}"` };
   }
   const q = filters.q?.trim().slice(0, 60);
-  if (q) where.OR = [{ name: { contains: q } }, { description: { contains: q } }, { collection: { contains: q } }];
+  if (q) {
+    const match = { contains: q, mode: "insensitive" as const };
+    where.OR = [{ name: match }, { description: match }, { collection: match }];
+  }
 
   const orderBy: Prisma.ProductOrderByWithRelationInput[] =
     filters.sort === "price-asc"
