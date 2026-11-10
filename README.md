@@ -33,12 +33,12 @@ obis-xi-vault/
 ├─ Start Store.bat            ← double-click to run the site on Windows
 ├─ prisma/
 │  ├─ schema.prisma           ← database tables (products, orders, admins)
-│  └─ seed.ts                 ← 20 starter jerseys (10 football, 10 basketball)
+│  └─ seed.ts                 ← 18 starter jerseys (15 football, 3 basketball)
 ├─ scripts/
 │  ├─ setup.mjs               ← first-time setup
 │  └─ create-admin.ts         ← create an admin or reset a password
 ├─ public/brand/logo.jpg      ← your logo
-├─ public/products/           ← starter jersey photos (credits: src/lib/photo-credits.json)
+├─ public/products/           ← starter jersey photos (front and back of each)
 ├─ uploads/                   ← photos uploaded from the admin area (local mode)
 └─ src/
    ├─ app/

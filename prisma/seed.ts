@@ -1,8 +1,8 @@
 // Seeds the database with the starter jersey catalogue (and optionally the first admin).
 // Run with:  npm run db:seed
 //
-// Product photos live in public/products/ and come from Wikimedia Commons under free
-// licences. Credits are listed in src/lib/photo-credits.json and shown on /credits.
+// Product photos live in public/products/ as <photo>-front.jpg and <photo>-back.jpg.
+// Re-running the seed refreshes these products; products you add in the admin area are left alone.
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcryptjs";
 
@@ -17,8 +17,8 @@ type Seed = {
   sizes: string[];
   featured?: boolean;
   description: string;
-  /** File names in public/products/, first one is the main photo */
-  images: string[];
+  /** Base file name in public/products/ (front and back photos) */
+  photo: string;
 };
 
 const FB = ["S", "M", "L", "XL", "XXL"];
@@ -27,127 +27,179 @@ const BB = ["S", "M", "L", "XL", "XXL", "3XL"];
 const products: Seed[] = [
   // ───────────── Football ─────────────
   {
-    slug: "fc-barcelona-2010-11-home-jersey",
-    name: "FC Barcelona 2010/11 Home Jersey",
+    slug: "west-germany-1990-away-jersey",
+    name: "West Germany 1990 Away Jersey",
+    collection: "Retro",
+    sport: "FOOTBALL",
+    price: 8999,
+    sizes: FB,
+    description:
+      "The green away shirt from the summer West Germany won the World Cup. Bold green and white geometric print, fold-over collar and three-stripe shoulders.",
+    photo: "germany-1990-away",
+  },
+  {
+    slug: "manchester-united-home-jersey",
+    name: "Manchester United Home Jersey",
     collection: "Metro",
+    sport: "FOOTBALL",
+    price: 8999,
+    sizes: FB,
+    description: "United red with a black and white collar and cuffs, white three-stripe shoulders and a tonal pattern woven into the fabric.",
+    photo: "man-united-home",
+  },
+  {
+    slug: "liverpool-home-jersey",
+    name: "Liverpool Home Jersey",
+    collection: "New",
+    sport: "FOOTBALL",
+    price: 8999,
+    sizes: FB,
+    description: "Deep Liverpool red with white three-stripe shoulders, white cuffs and fine white piping down the sides. The Liver bird sits over the heart.",
+    photo: "liverpool-home",
+  },
+  {
+    slug: "club-america-home-jersey",
+    name: "Club América Home Jersey",
+    collection: "Metro",
+    sport: "FOOTBALL",
+    price: 8499,
+    sizes: FB,
+    description: "Las Águilas in their famous yellow, finished with a navy and red ribbed collar and cuffs and the club crest on the chest.",
+    photo: "club-america-home",
+  },
+  {
+    slug: "chivas-guadalajara-home-jersey",
+    name: "Chivas Guadalajara Home Jersey",
+    collection: "Metro",
+    sport: "FOOTBALL",
+    price: 8499,
+    sizes: FB,
+    description: "The red and white stripes of El Rebaño Sagrado with navy shoulder panels, navy cuffs and the Chivas crest.",
+    photo: "chivas-home",
+  },
+  {
+    slug: "real-madrid-home-jersey",
+    name: "Real Madrid Home Jersey",
+    collection: "New",
+    sport: "FOOTBALL",
+    price: 9499,
+    sizes: FB,
+    description: "Classic Los Blancos white with black three-stripe shoulders and a subtle tonal pattern across the body. Name and number printing on request.",
+    photo: "real-madrid-home",
+  },
+  {
+    slug: "fc-barcelona-home-jersey",
+    name: "FC Barcelona Home Jersey",
+    collection: "Metro",
+    sport: "FOOTBALL",
+    price: 8999,
+    sizes: FB,
+    description: "Bold blaugrana stripes with garnet cuffs, the club crest and the Catalan senyera on the back of the neck.",
+    photo: "barcelona-home",
+  },
+  {
+    slug: "arsenal-2002-04-home-henry-14",
+    name: "Arsenal 2002–04 Home – Henry 14",
+    collection: "Classic",
+    sport: "FOOTBALL",
+    price: 9499,
+    sizes: FB,
+    description:
+      "Red body, white sleeves and gold piping, with Henry 14 on the back. The home shirt Arsenal wore through the unbeaten Invincibles season.",
+    photo: "arsenal-henry-14",
+  },
+  {
+    slug: "netherlands-1988-home-jersey",
+    name: "Netherlands 1988 Home Jersey",
+    collection: "Retro",
     sport: "FOOTBALL",
     price: 8999,
     sizes: FB,
     featured: true,
     description:
-      "The blaugrana stripes from one of the greatest club seasons ever played. Garnet and blue body, gold-trimmed collar and cuffs, and the famous front-of-shirt partnership.",
-    images: ["barcelona-2010-home.jpg"],
+      "The orange geometric print the Dutch wore to win Euro '88. One of the most loved football shirts ever made, with a V-neck collar and white three-stripe shoulders.",
+    photo: "netherlands-1988-home",
   },
   {
-    slug: "fc-barcelona-2005-06-home-ronaldinho-10",
-    name: "FC Barcelona 2005/06 Home – Ronaldinho 10",
-    collection: "Classic",
+    slug: "mexico-black-jersey",
+    name: "Mexico Black Jersey",
+    collection: "New",
     sport: "FOOTBALL",
-    price: 9499,
+    price: 8999,
     sizes: FB,
     featured: true,
-    description:
-      "The shirt of the Champions League-winning season, with Ronaldinho 10 printed on the back. Classic garnet and blue stripes with a V-neck collar.",
-    images: ["barcelona-2005-home.jpg", "barcelona-2005-home-back.jpg"],
+    description: "El Tri in black, with a tonal Aztec calendar graphic across the front and back and green and red trim on the shoulders and cuffs.",
+    photo: "mexico-black",
   },
   {
-    slug: "real-madrid-2006-07-home-beckham-23",
-    name: "Real Madrid 2006/07 Home – Beckham 23",
-    collection: "Classic",
-    sport: "FOOTBALL",
-    price: 9499,
-    sizes: FB,
-    featured: true,
-    description:
-      "All-white Los Blancos home shirt with Beckham 23 on the back, from the season that ended with a league title. Navy lettering and clean contrast piping.",
-    images: ["real-madrid-2007-home-beckham.jpg"],
-  },
-  {
-    slug: "manchester-united-1990-92-home-jersey",
-    name: "Manchester United 1990–92 Home Jersey",
-    collection: "Retro",
-    sport: "FOOTBALL",
-    price: 7999,
-    sizes: FB,
-    description:
-      "Early-90s red with white collar, three-stripe sleeves and the iconic sponsor across the chest. A favourite from the era that started a dynasty.",
-    images: ["man-united-1990-home.jpg"],
-  },
-  {
-    slug: "sporting-cp-2002-03-home-ronaldo-28",
-    name: "Sporting CP 2002/03 Home – Ronaldo 28",
-    collection: "Classic",
-    sport: "FOOTBALL",
-    price: 9499,
-    sizes: FB,
-    featured: true,
-    description:
-      "Green and white hoops with Ronaldo 28 on the back, the number he wore as a teenager in Lisbon before leaving for Manchester.",
-    images: ["sporting-ronaldo-28.jpg"],
-  },
-  {
-    slug: "river-plate-2026-27-home-jersey",
-    name: "River Plate 2026/27 Home Jersey",
+    slug: "spain-home-jersey-lamine-yamal-19",
+    name: "Spain Home Jersey – Lamine Yamal 19",
     collection: "New",
     sport: "FOOTBALL",
     price: 9999,
     sizes: FB,
     featured: true,
-    description: "The newest Millonarios home shirt: white body with the famous red sash, three-stripe shoulders and a crew collar.",
-    images: ["river-plate-home.jpg"],
+    description: "La Roja's red home shirt with yellow shoulder stripes and navy side panels, with Lamine Yamal 19 printed front and back.",
+    photo: "spain-home-yamal-19",
   },
   {
-    slug: "brazil-2016-home-jersey",
-    name: "Brazil 2016 Home Jersey",
-    collection: "Metro",
+    slug: "manchester-city-home-jersey-haaland-9",
+    name: "Manchester City Home Jersey – Haaland 9",
+    collection: "New",
     sport: "FOOTBALL",
-    price: 8499,
+    price: 9999,
     sizes: FB,
-    description: "The canary-yellow Seleção shirt with green trim and the CBF crest. Lightweight, breathable and made for hot match days.",
-    images: ["brazil-2016-home.jpg"],
+    featured: true,
+    description: "Sky-blue City home shirt with navy and white striped collar and cuffs, and Haaland 9 on the back.",
+    photo: "man-city-home-haaland-9",
   },
   {
-    slug: "germany-1998-world-cup-home-jersey",
-    name: "Germany 1998 World Cup Home Jersey",
+    slug: "manchester-united-2007-08-home-long-sleeve-ronaldo-7",
+    name: "Manchester United 2007/08 Home Long Sleeve – Ronaldo 7",
+    collection: "Classic",
+    sport: "FOOTBALL",
+    price: 9999,
+    sizes: FB,
+    featured: true,
+    description:
+      "Long-sleeved red home shirt from the 2007/08 double-winning season, with Ronaldo 7 on the back and the white stripe running down the spine.",
+    photo: "man-united-2007-08-ls-ronaldo-7",
+  },
+  {
+    slug: "real-madrid-2016-17-away-ronaldo-7",
+    name: "Real Madrid 2016/17 Away – Ronaldo 7",
+    collection: "Classic",
+    sport: "FOOTBALL",
+    price: 9999,
+    sizes: FB,
+    featured: true,
+    description:
+      "The purple away shirt from the season Real Madrid won La Liga and the Champions League, with white trim, Champions League sleeve patches and Ronaldo 7 on the back.",
+    photo: "real-madrid-2016-17-away-ronaldo-7",
+  },
+  {
+    slug: "arsenal-1991-93-away-jersey",
+    name: "Arsenal 1991–93 Away Jersey",
     collection: "Retro",
     sport: "FOOTBALL",
-    price: 7499,
+    price: 8999,
     sizes: FB,
-    description: "White home shirt from France '98 with the black, red and gold chest band and three stars above the crest.",
-    images: ["germany-1998-home.jpg"],
-  },
-  {
-    slug: "celtic-1977-hoops-jersey",
-    name: "Celtic 1977 Hoops Jersey",
-    collection: "Retro",
-    sport: "FOOTBALL",
-    price: 6999,
-    sizes: FB,
-    description: "Long-sleeved green and white hoops with a white polo collar, the look of the 1977 Scottish Cup final.",
-    images: ["celtic-1977-hoops.jpg"],
-  },
-  {
-    slug: "boca-juniors-1907-retro-jersey",
-    name: "Boca Juniors 1907 Retro Jersey",
-    collection: "Retro",
-    sport: "FOOTBALL",
-    price: 6999,
-    sizes: ["S", "M", "L", "XL"],
-    description: "A tribute to Boca's early days: sky-blue body with a yellow diagonal sash and a lace-up collar.",
-    images: ["boca-1907-retro.jpg"],
+    featured: true,
+    description:
+      "The famous \"bruised banana\". Yellow with a navy zig-zag print, navy collar and cuffs with red trim, and three-stripe shoulders. A true 90s cult classic.",
+    photo: "arsenal-1991-93-away",
   },
 
   // ───────────── Basketball ─────────────
   {
-    slug: "chicago-bulls-jordan-23-red-jersey",
-    name: "Chicago Bulls Jordan 23 Red Jersey",
-    collection: "Classic",
+    slug: "new-york-knicks-icon-jersey-toppin-1",
+    name: "New York Knicks Icon Jersey – Toppin 1",
+    collection: "Metro",
     sport: "BASKETBALL",
-    price: 10999,
+    price: 9499,
     sizes: BB,
-    featured: true,
-    description: "The road red of the 90s dynasty with Jordan 23 in white and black. The most famous number in basketball.",
-    images: ["bulls-jordan-23.jpg", "bulls-jordan-23-pair.jpg"],
+    description: "Knicks royal blue with orange and white trim, the New York wordmark across the chest and Toppin 1 on the back.",
+    photo: "knicks-toppin-1",
   },
   {
     slug: "los-angeles-lakers-kobe-bryant-8-jersey",
@@ -157,106 +209,20 @@ const products: Seed[] = [
     price: 10999,
     sizes: BB,
     featured: true,
-    description: "Forum purple with gold and white trim and Bryant 8 on the back, the number from Kobe's first three titles.",
-    images: ["lakers-kobe-8.jpg"],
+    description: "Lakers gold with purple and white trim and Bryant 8 on the back, the number from Kobe's first three championships.",
+    photo: "lakers-bryant-8",
   },
   {
-    slug: "los-angeles-lakers-lebron-23-icon-jersey",
-    name: "Los Angeles Lakers LeBron 23 Jersey",
-    collection: "New",
+    slug: "chicago-bulls-jordan-23-red-jersey",
+    name: "Chicago Bulls Jordan 23 Red Jersey",
+    collection: "Classic",
     sport: "BASKETBALL",
-    price: 9999,
+    price: 10999,
     sizes: BB,
     featured: true,
-    description: "The modern white Lakers shirt with purple and gold script and number 23, as worn by LeBron James.",
-    images: ["lakers-lebron-23.jpg"],
+    description: "The road red of the 90s dynasty, with Jordan 23 in black and white. The most famous number in basketball.",
+    photo: "bulls-jordan-23",
   },
-  {
-    slug: "atlanta-hawks-steve-smith-8-jersey",
-    name: "Atlanta Hawks Steve Smith 8 Jersey",
-    collection: "Retro",
-    sport: "BASKETBALL",
-    price: 8999,
-    sizes: BB,
-    description: "Late-90s Hawks road jersey with the red-to-black fade and the hawk holding a basketball on the chest.",
-    images: ["hawks-smith-8.jpg", "hawks-smith-8-back.jpg"],
-  },
-  {
-    slug: "indiana-pacers-tinsley-11-pinstripe-jersey",
-    name: "Indiana Pacers Tinsley 11 Pinstripe Jersey",
-    collection: "Retro",
-    sport: "BASKETBALL",
-    price: 8999,
-    sizes: BB,
-    description: "Navy pinstripes with gold lettering and side panels, the Pacers look of the early 2000s.",
-    images: ["pacers-tinsley-11.jpg", "pacers-tinsley-11-back.jpg"],
-  },
-  {
-    slug: "denver-nuggets-rainbow-issel-44-jersey",
-    name: "Denver Nuggets Rainbow Issel 44 Jersey",
-    collection: "Retro",
-    sport: "BASKETBALL",
-    price: 9499,
-    sizes: BB,
-    description: "The beloved 80s skyline-and-rainbow design with Issel 44. One of the most loved retro jerseys in the game.",
-    images: ["nuggets-issel-44.jpg"],
-  },
-  {
-    slug: "los-angeles-clippers-norman-3-jersey",
-    name: "Los Angeles Clippers Norman 3 Jersey",
-    collection: "Retro",
-    sport: "BASKETBALL",
-    price: 7999,
-    sizes: BB,
-    description: "Early-90s Clippers road red with blue and white trim and Norman 3 on the back.",
-    images: ["clippers-norman-3.jpg"],
-  },
-  {
-    slug: "san-antonio-spurs-anderson-40-jersey",
-    name: "San Antonio Spurs Anderson 40 Jersey",
-    collection: "Retro",
-    sport: "BASKETBALL",
-    price: 7999,
-    sizes: BB,
-    description: "Classic black road Spurs jersey with the arched San Antonio wordmark and number 40.",
-    images: ["spurs-anderson-40.jpg"],
-  },
-  {
-    slug: "georgetown-hoyas-ewing-33-jersey",
-    name: "Georgetown Hoyas Ewing 33 Jersey",
-    collection: "Classic",
-    sport: "BASKETBALL",
-    price: 8499,
-    sizes: BB,
-    description: "Navy and grey Georgetown jersey with number 33, as worn by Patrick Ewing during the Hoyas' 1980s run.",
-    images: ["georgetown-ewing-33.jpg"],
-  },
-  {
-    slug: "uconn-huskies-hamilton-32-jersey",
-    name: "UConn Huskies Hamilton 32 Jersey",
-    collection: "Classic",
-    sport: "BASKETBALL",
-    price: 8499,
-    sizes: BB,
-    description: "White UConn home jersey with navy Connecticut lettering and number 32, as worn by Rip Hamilton in the 1999 title run.",
-    images: ["uconn-hamilton-32.jpg"],
-  },
-];
-
-// Earlier versions of this seed created illustrated sample jerseys. Hide them if they exist.
-const RETIRED_SLUGS = [
-  "vault-metro-home-jersey",
-  "vault-metro-away-jersey",
-  "classic-98-stripes-jersey",
-  "classic-emerald-hoops-jersey",
-  "royal-halves-jersey",
-  "crown-chevron-third-jersey",
-  "retro-sky-jersey",
-  "vault-metro-hardwood-jersey",
-  "classic-96-pinstripe-jersey",
-  "night-court-jersey",
-  "golden-era-jersey",
-  "skyline-city-jersey",
 ];
 
 async function main() {
@@ -274,18 +240,13 @@ async function main() {
     const product = await db.product.upsert({ where: { slug: p.slug }, create: { slug: p.slug, ...data }, update: data });
     await db.productImage.deleteMany({ where: { productId: product.id, url: { startsWith: "/products/" } } });
     await db.productImage.createMany({
-      data: p.images.map((file, i) => ({
-        productId: product.id,
-        url: `/products/${file}`,
-        alt: i === 0 ? p.name : `${p.name} – photo ${i + 1}`,
-        sortOrder: i,
-      })),
+      data: [
+        { productId: product.id, url: `/products/${p.photo}-front.jpg`, alt: `${p.name} – front`, sortOrder: 0 },
+        { productId: product.id, url: `/products/${p.photo}-back.jpg`, alt: `${p.name} – back`, sortOrder: 1 },
+      ],
     });
   }
   console.log(`✓ Seeded ${products.length} products`);
-
-  const retired = await db.product.updateMany({ where: { slug: { in: RETIRED_SLUGS } }, data: { active: false, featured: false } });
-  if (retired.count) console.log(`✓ Hid ${retired.count} old sample products`);
 
   const email = process.env.ADMIN_EMAIL?.trim().toLowerCase();
   const password = process.env.ADMIN_PASSWORD;
