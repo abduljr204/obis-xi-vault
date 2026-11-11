@@ -1,7 +1,9 @@
 import "server-only";
 import type { Prisma } from "@prisma/client";
+import { after } from "next/server";
 import { storeConfig, shippingFor } from "./config";
 import { db } from "./db";
+import { sendOrderPaidEmails } from "./order-emails";
 import { parseSizes } from "./utils";
 import type { CheckoutInput } from "./validation";
 import { getStripe } from "./stripe";
@@ -89,9 +91,12 @@ export async function createPendingOrder(input: CheckoutInput) {
   });
 }
 
-/** Idempotently mark an order paid. */
+/**
+ * Idempotently mark an order paid. The webhook and the confirmation page can both call this;
+ * only the call that actually flips the order to PAID sends the confirmation emails.
+ */
 export async function markOrderPaid(orderId: string, details: { paymentId?: string | null; provider?: string }) {
-  await db.order.updateMany({
+  const { count } = await db.order.updateMany({
     where: { id: orderId, paymentStatus: { not: "PAID" } },
     data: {
       paymentStatus: "PAID",
@@ -100,6 +105,8 @@ export async function markOrderPaid(orderId: string, details: { paymentId?: stri
       paymentProvider: details.provider ?? "stripe",
     },
   });
+  // Send after the response so customers and Stripe never wait on the email provider.
+  if (count === 1) after(() => sendOrderPaidEmails(orderId));
 }
 
 export async function markOrderFailed(orderId: string) {

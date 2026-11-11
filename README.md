@@ -101,6 +101,36 @@ Without Stripe keys the site runs in **demo mode** on your computer: orders are 
 5. Restart the site. Test with card `4242 4242 4242 4242`, any future expiry date and any CVC.
 6. Set your currency and shipping in `.env`: `STORE_CURRENCY` (e.g. `usd`, `gbp`, `eur`, `sar`, `aed`), `SHIPPING_FLAT_RATE`, `FREE_SHIPPING_THRESHOLD` and `SHIPPING_COUNTRIES`.
 
+## Customer emails
+
+Customers don't need an account. The store emails them instead:
+
+| Email | Sent to | When |
+|---|---|---|
+| **Order confirmed** | customer | once, when the payment is confirmed |
+| **Your order is on its way** | customer | when you save an order as **Shipped**, and again if you add or change the tracking number later. Includes a tracking link for Canada Post, Purolator, UPS, FedEx, USPS and DHL |
+| **New order** | you (`ORDER_NOTIFY_EMAIL`) | for every new paid order. Replying writes to the customer |
+
+Emails are sent over SMTP, so any email provider works. Until it's set up, the store works normally and simply doesn't send emails (the admin order page shows a reminder).
+
+**Option A — Gmail (works today, no domain needed):**
+1. Turn on 2-Step Verification for the Gmail account (Google Account → Security).
+2. Create an **app password**: Google Account → Security → App passwords. Copy the 16-letter password.
+3. Set:
+   ```
+   SMTP_HOST="smtp.gmail.com"
+   SMTP_PORT="465"
+   SMTP_USER="yourstore@gmail.com"
+   SMTP_PASS="the 16-letter app password"
+   EMAIL_FROM="Obi's XI Vault <yourstore@gmail.com>"
+   ORDER_NOTIFY_EMAIL="yourstore@gmail.com"
+   ```
+Gmail allows a few hundred emails a day, plenty for a small store.
+
+**Option B — your own domain (looks more professional, e.g. orders@yourstore.ca):** once you own a domain, create a free account at https://resend.com, verify the domain there, create an API key and set `SMTP_HOST="smtp.resend.com"`, `SMTP_USER="resend"`, `SMTP_PASS="<API key>"`, `EMAIL_FROM="Obi's XI Vault <orders@yourstore.ca>"`.
+
+Put the same settings in Vercel → Settings → Environment Variables, then redeploy.
+
 ## Deploy (recommended: Vercel + Neon Postgres)
 
 1. **Push the code to GitHub** (see below).
@@ -117,6 +147,7 @@ Without Stripe keys the site runs in **demo mode** on your computer: orders are 
    | `STRIPE_SECRET_KEY` | `sk_live_…` |
    | `STRIPE_WEBHOOK_SECRET` | `whsec_…` (from step 4 above, using your live URL) |
    | `STORE_CURRENCY`, `SHIPPING_FLAT_RATE`, `FREE_SHIPPING_THRESHOLD`, `SHIPPING_COUNTRIES` | your store settings |
+   | `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`, `EMAIL_FROM`, `ORDER_NOTIFY_EMAIL` | customer emails (see **Customer emails** above) |
    | `SUPPLIER_EMAIL` | optional |
 7. Create the tables and sample products in the production database from your computer, using the production connection string:
    ```bash

@@ -17,7 +17,7 @@ export function OrderUpdateForm({ action, initial, paid }: Props) {
   const fe = state.fieldErrors ?? {};
 
   useEffect(() => {
-    if (state.ok) toast("Order updated");
+    if (state.ok) toast(state.notice ?? "Order updated");
     else if (state.error) toast(state.error, "error");
   }, [state, toast]);
 
@@ -46,7 +46,7 @@ export function OrderUpdateForm({ action, initial, paid }: Props) {
       <div className="grid gap-4 sm:grid-cols-2">
         <div>
           <label htmlFor="carrier" className="field-label">Carrier</label>
-          <input id="carrier" name="carrier" defaultValue={initial.carrier} maxLength={60} className="input" placeholder="DHL, UPS, Aramex…" />
+          <input id="carrier" name="carrier" defaultValue={initial.carrier} maxLength={60} className="input" placeholder="Canada Post, UPS, FedEx…" />
         </div>
         <div>
           <label htmlFor="trackingNumber" className="field-label">Tracking number</label>
@@ -54,6 +54,9 @@ export function OrderUpdateForm({ action, initial, paid }: Props) {
           {fe.trackingNumber && <p className="field-error">{fe.trackingNumber}</p>}
         </div>
       </div>
+      <p className="-mt-2 text-xs leading-relaxed text-mute">
+        Saving with status <strong className="text-bone">Shipped</strong> emails the customer, including the tracking number and a tracking link for Canada Post, Purolator, UPS, FedEx, USPS and DHL. Adding a tracking number later sends it to them too.
+      </p>
       <div>
         <label htmlFor="adminNotes" className="field-label">Internal notes</label>
         <textarea id="adminNotes" name="adminNotes" defaultValue={initial.adminNotes} rows={3} maxLength={2000} className="input" placeholder="Supplier ref, dates, anything to remember… (not shown to customer)" />

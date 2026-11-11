@@ -5,6 +5,7 @@ import { OrderEffects } from "@/components/store/OrderEffects";
 import { Crown, Sparkle } from "@/components/ui/Brand";
 import { orderStatusLabel } from "@/lib/constants";
 import { db } from "@/lib/db";
+import { emailEnabled } from "@/lib/email";
 import { formatMoney } from "@/lib/money";
 import { syncStripeSession } from "@/lib/orders";
 
@@ -45,7 +46,9 @@ export default async function OrderPage({ params, searchParams }: Props) {
         </h1>
         <p className="mx-auto mt-4 max-w-lg text-mute">
           {paid
-            ? `Your order is confirmed. We've saved your details and will email ${order.email} when it ships.`
+            ? emailEnabled()
+              ? `Your order is confirmed. We've sent a confirmation to ${order.email} and will email you again with tracking details when it ships.`
+              : `Your order is confirmed. We've saved your details and will email ${order.email} when it ships.`
             : pending
               ? "We're waiting for confirmation from the payment provider. This page will update automatically."
               : "Your payment didn't go through and you haven't been charged. You can try again from your cart."}

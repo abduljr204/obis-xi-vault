@@ -7,6 +7,7 @@ import { OrderUpdateForm } from "@/components/admin/OrderUpdateForm";
 import { FlashToast } from "@/components/ui/Toast";
 import { sportLabel } from "@/lib/constants";
 import { db } from "@/lib/db";
+import { emailEnabled } from "@/lib/email";
 import { formatMoney } from "@/lib/money";
 import { quickStatus, updateOrder } from "../actions";
 
@@ -18,9 +19,16 @@ const NEXT_STEP: Record<string, { status: string; label: string } | undefined> =
   SHIPPED: { status: "COMPLETED", label: "Mark as completed" },
 };
 
-export default async function OrderDetailPage({ params, searchParams }: { params: Promise<{ id: string }>; searchParams: Promise<{ updated?: string }> }) {
+export default async function OrderDetailPage({ params, searchParams }: { params: Promise<{ id: string }>; searchParams: Promise<{ updated?: string; emailed?: string }> }) {
   const { id } = await params;
-  const { updated } = await searchParams;
+  const { updated, emailed } = await searchParams;
+  const flash = !updated
+    ? null
+    : emailed === "1"
+      ? "Marked as shipped. Shipping email sent to the customer."
+      : emailed === "off"
+        ? "Marked as shipped. Customer emails aren't set up, so the customer wasn't notified."
+        : "Status updated";
   const order = await db.order.findUnique({ where: { id }, include: { items: true } });
   if (!order) notFound();
 
@@ -58,7 +66,7 @@ export default async function OrderDetailPage({ params, searchParams }: { params
 
   return (
     <div className="space-y-8">
-      <FlashToast message={updated ? "Status updated" : null} />
+      <FlashToast message={flash} />
       <header className="flex flex-col justify-between gap-4 lg:flex-row lg:items-end">
         <div>
           <Link href="/admin/orders" className="text-xs tracking-[0.16em] text-mute uppercase hover:text-ivory">← Orders</Link>
@@ -177,6 +185,11 @@ export default async function OrderDetailPage({ params, searchParams }: { params
 
           <section className="card p-6">
             <h2 className="font-display mb-5 text-lg font-semibold">Update order</h2>
+            {!emailEnabled() && (
+              <p className="mb-5 rounded-xl border border-warn/40 bg-warn/5 px-4 py-3 text-xs leading-relaxed text-warn">
+                Customer emails are off, so customers won&rsquo;t get confirmation or shipping emails. Add the SMTP settings to turn them on (see README → Customer emails).
+              </p>
+            )}
             <OrderUpdateForm
               action={updateOrder.bind(null, order.id)}
               paid={paid}
