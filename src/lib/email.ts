@@ -14,11 +14,12 @@ let transporter: Transporter | null = null;
 
 function getTransport() {
   if (!transporter) {
-    const port = Number.parseInt(process.env.SMTP_PORT ?? "", 10) || 465;
+    const port = Number.parseInt(process.env.SMTP_PORT ?? "", 10) || 587;
     transporter = nodemailer.createTransport({
       host: process.env.SMTP_HOST,
       port,
       secure: port === 465, // 465 = TLS from the start; 587 upgrades with STARTTLS
+      requireTLS: port !== 465, // never send the password unencrypted, even if a network strips STARTTLS
       auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS },
       // Fail fast if the provider is unreachable, so a request never hangs on email.
       connectionTimeout: 10_000,

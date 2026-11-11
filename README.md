@@ -119,7 +119,7 @@ Emails are sent over SMTP, so any email provider works. Until it's set up, the s
 3. Set:
    ```
    SMTP_HOST="smtp.gmail.com"
-   SMTP_PORT="465"
+   SMTP_PORT="587"
    SMTP_USER="yourstore@gmail.com"
    SMTP_PASS="the 16-letter app password"
    EMAIL_FROM="Obi's XI Vault <yourstore@gmail.com>"
