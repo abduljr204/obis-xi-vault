@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { PolicyPage, PolicySection } from "@/components/store/PolicyPage";
-import { CONTACT_EMAIL, STORE_NAME } from "@/lib/constants";
+import { CONTACT_EMAIL, STORE_NAME, STORE_PROVINCE } from "@/lib/constants";
 
 export const metadata: Metadata = { title: "Terms of sale", description: "The terms that apply when you buy from Obi's XI Vault." };
 
@@ -64,7 +64,10 @@ export default function TermsPage() {
       </PolicySection>
 
       <PolicySection title="Governing law">
-        <p>These terms are governed by the laws of Canada and of the province where {STORE_NAME} is based.</p>
+        <p>
+          {STORE_NAME} is based in {STORE_PROVINCE}, Canada. These terms are governed by the laws of the Province of {STORE_PROVINCE} and the
+          federal laws of Canada that apply there.
+        </p>
       </PolicySection>
 
       <PolicySection title="Changes and contact">

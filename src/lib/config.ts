@@ -6,8 +6,8 @@ function int(name: string, fallback: number) {
 
 export const storeConfig = {
   currency: (process.env.STORE_CURRENCY || "usd").toLowerCase(),
-  shippingFlatRate: int("SHIPPING_FLAT_RATE", 999),
-  freeShippingThreshold: int("FREE_SHIPPING_THRESHOLD", 15000),
+  shippingFlatRate: int("SHIPPING_FLAT_RATE", 500),
+  freeShippingThreshold: int("FREE_SHIPPING_THRESHOLD", 0),
   shippingCountries: (process.env.SHIPPING_COUNTRIES || "US")
     .split(",")
     .map((c) => c.trim().toUpperCase())

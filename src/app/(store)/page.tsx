@@ -198,7 +198,15 @@ export default async function HomePage() {
       <section className="container-x mt-28 grid gap-10 text-center md:grid-cols-3">
         {[
           { t: "Secure checkout", d: "Pay safely with Stripe. Card details never touch our servers." },
-          { t: "Tracked shipping", d: free > 0 ? `Free tracked shipping on orders over ${formatMoney(free, currency)}.` : "Every order ships with tracking." },
+          {
+            t: "Tracked shipping",
+            d:
+              free > 0
+                ? `Free tracked shipping on orders over ${formatMoney(free, currency)}.`
+                : storeConfig.shippingFlatRate > 0
+                  ? `${formatMoney(storeConfig.shippingFlatRate, currency)} tracked shipping on every order, however many jerseys.`
+                  : "Free tracked shipping on every order.",
+          },
           { t: "Your size, your fit", d: "Sizes XS to 3XL. Pick yours on every product page." },
         ].map((x, i) => (
           <Reveal key={x.t} delay={i * 100}>

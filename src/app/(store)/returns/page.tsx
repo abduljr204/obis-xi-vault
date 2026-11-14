@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { PolicyPage, PolicySection } from "@/components/store/PolicyPage";
-import { CONTACT_EMAIL, INSTAGRAM_HANDLE, INSTAGRAM_URL, LOST_PARCEL_DAYS, PROBLEM_REPORT_DAYS } from "@/lib/constants";
+import { CONTACT_EMAIL, INSTAGRAM_HANDLE, INSTAGRAM_URL, LOST_PARCEL_DAYS, PROBLEM_REPORT_DAYS, STORE_PROVINCE } from "@/lib/constants";
 
 export const metadata: Metadata = {
   title: "Returns & refunds",
@@ -73,7 +73,10 @@ export default function ReturnsPage() {
       </PolicySection>
 
       <PolicySection title="Your rights">
-        <p>This policy doesn&rsquo;t affect any rights you have under the consumer protection laws that apply to you.</p>
+        <p>
+          This policy doesn&rsquo;t affect any rights you have under {STORE_PROVINCE}&rsquo;s <em>Consumer Protection Act</em> or the other consumer
+          protection laws that apply to you.
+        </p>
       </PolicySection>
     </PolicyPage>
   );

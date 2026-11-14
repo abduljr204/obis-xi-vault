@@ -2,6 +2,7 @@ export const STORE_NAME = "Obi's XI Vault";
 export const STORE_TAGLINE = "Football Jerseys × Classics × More";
 
 // ── Store details shown on the contact and policy pages ─────
+export const STORE_PROVINCE = "Ontario";
 export const CONTACT_EMAIL = "shop.192004@gmail.com";
 export const INSTAGRAM_HANDLE = "obixivault";
 export const INSTAGRAM_URL = `https://www.instagram.com/${INSTAGRAM_HANDLE}/`;
