@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useToast } from "@/components/ui/Toast";
 import { Sparkle } from "@/components/ui/Brand";
+import { applyBundles, bundleHints, describeBundle } from "@/lib/bundles";
 import { MAX_QTY_PER_LINE, sportLabel } from "@/lib/constants";
 import { formatMoney } from "@/lib/money";
 import { shippingEstimate, useValidatedCart } from "./useValidatedCart";
@@ -10,8 +11,11 @@ import { shippingEstimate, useValidatedCart } from "./useValidatedCart";
 export function CartView({ flatRate, freeThreshold }: { flatRate: number; freeThreshold: number }) {
   const { lines, ready, checked, unavailable, subtotal, currency, setQuantity, remove } = useValidatedCart();
   const toast = useToast();
-  const shipping = shippingEstimate(subtotal, flatRate, freeThreshold);
-  const toFree = freeThreshold > 0 ? freeThreshold - subtotal : 0;
+  const bundles = applyBundles(lines.map((l) => ({ kind: l.kind, price: l.price, quantity: l.quantity })));
+  const discount = Math.min(bundles.discount, subtotal);
+  const hints = bundleHints(bundles, currency);
+  const shipping = shippingEstimate(subtotal - discount, flatRate, freeThreshold);
+  const toFree = freeThreshold > 0 ? freeThreshold - (subtotal - discount) : 0;
 
   if (!ready) {
     return <div className="card h-64 animate-pulse" aria-busy="true" />;
@@ -89,10 +93,23 @@ export function CartView({ flatRate, freeThreshold }: { flatRate: number; freeTh
             </div>
           </div>
         )}
+        {hints.length > 0 && (
+          <div className="mt-5 space-y-1 rounded-xl border border-gold/40 bg-gold/5 px-4 py-3 text-xs leading-relaxed text-bone">
+            {hints.map((h) => <p key={h}><span className="text-gold">✦</span> {h}</p>)}
+          </div>
+        )}
         <dl className="mt-6 space-y-3 text-sm">
           <div className="flex justify-between"><dt className="text-mute">Subtotal</dt><dd>{formatMoney(subtotal, currency)}</dd></div>
+          {discount > 0 && (
+            <div>
+              <div className="flex justify-between text-gold"><dt>Bundle savings</dt><dd>−{formatMoney(discount, currency)}</dd></div>
+              <ul className="mt-1 space-y-0.5 text-xs text-mute">
+                {bundles.applied.map((b) => <li key={b.id}>✦ {describeBundle(b, currency)}</li>)}
+              </ul>
+            </div>
+          )}
           <div className="flex justify-between"><dt className="text-mute">Shipping</dt><dd>{shipping === 0 ? "Free" : formatMoney(shipping, currency)}</dd></div>
-          <div className="flex justify-between border-t border-line pt-4 text-base"><dt>Total</dt><dd className="font-display text-lg">{formatMoney(subtotal + shipping, currency)}</dd></div>
+          <div className="flex justify-between border-t border-line pt-4 text-base"><dt>Total</dt><dd className="font-display text-lg">{formatMoney(subtotal - discount + shipping, currency)}</dd></div>
         </dl>
         <Link href="/checkout" className="btn btn-primary mt-8 w-full" aria-disabled={!checked}>
           Checkout

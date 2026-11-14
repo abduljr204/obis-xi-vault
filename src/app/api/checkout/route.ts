@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { demoPaymentsAllowed, storeConfig } from "@/lib/config";
 import { CheckoutError, createPendingOrder, markOrderPaid } from "@/lib/orders";
-import { getStripe } from "@/lib/stripe";
+import { bundleCoupon, getStripe } from "@/lib/stripe";
 import { checkoutSchema, toFieldErrors } from "@/lib/validation";
 
 // Basic abuse protection: max 15 checkout attempts per IP per 10 minutes.
@@ -63,8 +63,10 @@ export async function POST(req: Request) {
 
   // ── Stripe Checkout (card data handled entirely by Stripe) ──
   try {
+    const discounts = order.discount > 0 ? [{ coupon: await bundleCoupon(stripe, order.discount, order.currency) }] : undefined;
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
+      discounts,
       customer_email: order.email,
       client_reference_id: order.id,
       metadata: { orderId: order.id, orderNumber: order.orderNumber },

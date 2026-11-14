@@ -103,6 +103,23 @@ Without Stripe keys the site runs in **demo mode** on your computer: orders are 
 5. Restart the site. Test with card `4242 4242 4242 4242`, any future expiry date and any CVC.
 6. Set your currency and shipping in `.env`: `STORE_CURRENCY` (e.g. `usd`, `gbp`, `eur`, `sar`, `aed`), `SHIPPING_FLAT_RATE`, `FREE_SHIPPING_THRESHOLD` and `SHIPPING_COUNTRIES`.
 
+## Product types and bundle deals
+
+Every product has a **type**, chosen in the admin product form. The type sets the standard price (you can still change a product's price) and which bundle deals apply:
+
+| Type | Standard price | Bundle deals |
+|---|---|---|
+| Soccer jersey | CA$40 | any 3 for CA$110 |
+| Retro soccer jersey | CA$45 | any 3 for CA$125 |
+| Long-sleeve soccer jersey | CA$50 | any 3 for CA$140 |
+| Mix: 1 soccer + 1 retro + 1 long-sleeve | | CA$125 |
+| Basketball jersey | CA$60 | — |
+| Track jacket | CA$60 | — |
+
+The cart, checkout, Stripe payment page (as a "Bundle deal" discount), order emails and admin order page all show the saving. The store always picks the combination that saves the customer the most, and the server recalculates it from the database at checkout. Change the deals in `src/lib/bundles.ts` and the standard prices in `PRODUCT_KINDS` in `src/lib/constants.ts`.
+
+**Updating the live database** (after a change to `prisma/schema.prisma` or `prisma/seed.ts`): put the live `DATABASE_URL` in `.env.live.local`, then run `npm run live:db:push` (adds new columns) and, if you want to reload the starter catalogue, `npm run live:db:seed`. Both show the live counts first and ask you to type `yes`. The seed resets starter products' prices, names and photos; products you added in the admin area aren't touched.
+
 ## Customer emails
 
 Customers don't need an account. The store emails them instead:

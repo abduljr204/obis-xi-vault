@@ -1,6 +1,7 @@
 import "server-only";
 import type { Prisma } from "@prisma/client";
 import { after } from "next/server";
+import { applyBundles, describeBundle } from "./bundles";
 import { storeConfig, shippingFor } from "./config";
 import { db } from "./db";
 import { sendOrderPaidEmails } from "./order-emails";
@@ -63,7 +64,11 @@ export async function createPendingOrder(input: CheckoutInput) {
   });
 
   const subtotal = items.reduce((sum, i) => sum + i.unitPrice * i.quantity, 0);
-  const shippingCost = shippingFor(subtotal);
+  // Bundle deals, worked out from the database's prices and product types (never the browser's).
+  const bundles = applyBundles(lines.map((l) => ({ kind: byId.get(l.productId)!.kind, price: byId.get(l.productId)!.price, quantity: l.quantity })));
+  const discount = Math.min(bundles.discount, subtotal);
+  const discountLabel = discount > 0 ? bundles.applied.map((b) => describeBundle(b, storeConfig.currency)).join("; ") : null;
+  const shippingCost = shippingFor(subtotal - discount);
 
   return db.$transaction(async (tx) => {
     const orderNumber = await nextOrderNumber(tx);
@@ -72,8 +77,10 @@ export async function createPendingOrder(input: CheckoutInput) {
         orderNumber,
         currency: storeConfig.currency,
         subtotal,
+        discount,
+        discountLabel,
         shippingCost,
-        total: subtotal + shippingCost,
+        total: subtotal - discount + shippingCost,
         customerName: input.customerName,
         email: input.email,
         phone: input.phone,

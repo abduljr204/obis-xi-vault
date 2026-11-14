@@ -227,8 +227,13 @@ ${withPrices ? `<td align="right" style="padding:12px 0 12px 12px;vertical-align
 
 function totalsTable(order: OrderWithItems) {
   const shipping = order.shippingCost === 0 ? "Free" : formatMoney(order.shippingCost, order.currency);
+  const bundleRow =
+    order.discount > 0
+      ? row(`Bundle savings${order.discountLabel ? ` (${order.discountLabel})` : ""}`, `<span style="color:#9a7a25;">−${esc(formatMoney(order.discount, order.currency))}</span>`)
+      : "";
   return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:12px 0 0;">
 ${row("Subtotal", esc(formatMoney(order.subtotal, order.currency)))}
+${bundleRow}
 ${row("Shipping", esc(shipping))}
 <tr><td style="font-family:${FONT};font-size:15px;font-weight:bold;padding:8px 0 0;">Total</td><td align="right" style="font-family:${SERIF};font-size:18px;font-weight:bold;padding:8px 0 0;">${esc(formatMoney(order.total, order.currency))}</td></tr>
 </table>`;
@@ -243,6 +248,7 @@ function itemsText(order: OrderWithItems, withPrices: boolean) {
 function totalsText(order: OrderWithItems) {
   return [
     `Subtotal: ${formatMoney(order.subtotal, order.currency)}`,
+    ...(order.discount > 0 ? [`Bundle savings: −${formatMoney(order.discount, order.currency)}${order.discountLabel ? ` (${order.discountLabel})` : ""}`] : []),
     `Shipping: ${order.shippingCost === 0 ? "Free" : formatMoney(order.shippingCost, order.currency)}`,
     `Total: ${formatMoney(order.total, order.currency)}`,
   ];

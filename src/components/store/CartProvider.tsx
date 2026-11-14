@@ -10,6 +10,8 @@ export type CartLine = {
   collection: string;
   sport: string;
   price: number; // display only — the server re-prices at checkout
+  /** Product type, for showing bundle savings in the cart (the server re-checks it). */
+  kind?: string | null;
   image: string | null;
   size: string;
   quantity: number;

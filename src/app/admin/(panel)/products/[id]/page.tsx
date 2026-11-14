@@ -37,6 +37,7 @@ export default async function EditProductPage({ params }: { params: Promise<{ id
           name: product.name,
           collection: product.collection,
           sport: product.sport,
+          kind: product.kind,
           price: priceToInput(product.price, storeConfig.currency),
           description: product.description,
           sizes: parseSizes(product.sizes),

@@ -6,6 +6,7 @@ import { ProductCard } from "@/components/store/ProductCard";
 import { ProductGallery } from "@/components/store/ProductGallery";
 import { Sparkle } from "@/components/ui/Brand";
 import { Reveal } from "@/components/ui/Reveal";
+import { bundleOffer } from "@/lib/bundles";
 import { getProductBySlug, getRelated } from "@/lib/catalog";
 import { storeConfig } from "@/lib/config";
 import { SPORTS, sportLabel } from "@/lib/constants";
@@ -59,6 +60,12 @@ export default async function ProductPage({ params }: Props) {
           </div>
           <h1 className="font-display mt-4 text-3xl leading-tight font-bold sm:text-5xl">{product.name}</h1>
           <p className="font-display mt-4 text-2xl">{formatMoney(product.price, currency)}</p>
+          {bundleOffer(product.kind, currency) && (
+            <p className="mt-4 rounded-xl border border-gold/40 bg-gold/5 px-4 py-3 text-sm leading-relaxed text-bone">
+              <span className="font-semibold text-gold">✦ </span>
+              {bundleOffer(product.kind, currency)} Savings are added in your cart.
+            </p>
+          )}
 
           <div className="divider-star my-8"><Sparkle className="h-3 w-3" /></div>
 
@@ -69,6 +76,7 @@ export default async function ProductPage({ params }: Props) {
               name: product.name,
               collection: product.collection,
               sport: product.sport,
+              kind: product.kind,
               price: product.price,
               image: product.images[0]?.url ?? null,
             }}

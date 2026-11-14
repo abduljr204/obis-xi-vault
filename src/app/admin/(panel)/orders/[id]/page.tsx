@@ -132,6 +132,12 @@ export default async function OrderDetailPage({ params, searchParams }: { params
             </ul>
             <dl className="space-y-2 border-t border-line px-6 py-4 text-sm">
               <div className="flex justify-between"><dt className="text-mute">Subtotal</dt><dd>{formatMoney(order.subtotal, order.currency)}</dd></div>
+              {order.discount > 0 && (
+                <div>
+                  <div className="flex justify-between text-gold"><dt>Bundle savings</dt><dd>−{formatMoney(order.discount, order.currency)}</dd></div>
+                  {order.discountLabel && <p className="mt-1 text-xs text-mute">{order.discountLabel}</p>}
+                </div>
+              )}
               <div className="flex justify-between"><dt className="text-mute">Shipping</dt><dd>{formatMoney(order.shippingCost, order.currency)}</dd></div>
               <div className="flex justify-between text-base"><dt>Total</dt><dd className="font-display">{formatMoney(order.total, order.currency)}</dd></div>
             </dl>

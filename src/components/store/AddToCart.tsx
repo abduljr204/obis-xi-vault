@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
 import { useCart } from "./CartProvider";
 
 type Props = {
-  product: { id: string; slug: string; name: string; collection: string; sport: string; price: number; image: string | null };
+  product: { id: string; slug: string; name: string; collection: string; sport: string; kind: string; price: number; image: string | null };
   sizes: string[];
 };
 
@@ -28,7 +28,7 @@ export function AddToCart({ product, sizes }: Props) {
       return false;
     }
     setError(null);
-    const ok = add({ productId: product.id, slug: product.slug, name: product.name, collection: product.collection, sport: product.sport, price: product.price, image: product.image, size }, qty);
+    const ok = add({ productId: product.id, slug: product.slug, name: product.name, collection: product.collection, sport: product.sport, kind: product.kind, price: product.price, image: product.image, size }, qty);
     if (!ok) {
       toast("Your cart is full. Remove an item to add more.", "error");
       return false;

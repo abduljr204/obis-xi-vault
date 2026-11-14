@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import { useToast } from "@/components/ui/Toast";
+import { applyBundles, describeBundle } from "@/lib/bundles";
 import { formatMoney } from "@/lib/money";
 import { cn } from "@/lib/utils";
 import { checkoutSchema, toFieldErrors, type FieldErrors } from "@/lib/validation";
@@ -45,7 +46,9 @@ export function CheckoutForm({ countries, flatRate, freeThreshold, paymentMode, 
     return countries.map((c) => ({ code: c, name: dn.of(c) ?? c })).sort((a, b) => a.name.localeCompare(b.name));
   }, [countries]);
 
-  const shipping = shippingEstimate(subtotal, flatRate, freeThreshold);
+  const bundles = applyBundles(lines.map((l) => ({ kind: l.kind, price: l.price, quantity: l.quantity })));
+  const discount = Math.min(bundles.discount, subtotal);
+  const shipping = shippingEstimate(subtotal - discount, flatRate, freeThreshold);
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -188,8 +191,16 @@ export function CheckoutForm({ countries, flatRate, freeThreshold, paymentMode, 
         </ul>
         <dl className="mt-6 space-y-3 border-t border-line pt-6 text-sm">
           <div className="flex justify-between"><dt className="text-mute">Subtotal</dt><dd>{formatMoney(subtotal, currency)}</dd></div>
+          {discount > 0 && (
+            <div>
+              <div className="flex justify-between text-gold"><dt>Bundle savings</dt><dd>−{formatMoney(discount, currency)}</dd></div>
+              <ul className="mt-1 space-y-0.5 text-xs text-mute">
+                {bundles.applied.map((b) => <li key={b.id}>✦ {describeBundle(b, currency)}</li>)}
+              </ul>
+            </div>
+          )}
           <div className="flex justify-between"><dt className="text-mute">Shipping</dt><dd>{shipping === 0 ? "Free" : formatMoney(shipping, currency)}</dd></div>
-          <div className="flex justify-between border-t border-line pt-4 text-base"><dt>Total</dt><dd className="font-display text-lg">{formatMoney(subtotal + shipping, currency)}</dd></div>
+          <div className="flex justify-between border-t border-line pt-4 text-base"><dt>Total</dt><dd className="font-display text-lg">{formatMoney(subtotal - discount + shipping, currency)}</dd></div>
         </dl>
         {formError && <p role="alert" className="mt-5 rounded-xl border border-bad/40 bg-bad/5 px-4 py-3 text-sm text-bad">{formError}</p>}
         <button type="submit" className={cn("btn btn-primary mt-6 w-full")} disabled={submitting || !checked || paymentMode === "disabled"}>
@@ -201,7 +212,7 @@ export function CheckoutForm({ countries, flatRate, freeThreshold, paymentMode, 
           ) : paymentMode === "demo" ? (
             "Place order (demo)"
           ) : (
-            `Pay ${formatMoney(subtotal + shipping, currency)}`
+            `Pay ${formatMoney(subtotal - discount + shipping, currency)}`
           )}
         </button>
         <p className="mt-4 text-center text-xs leading-relaxed text-faint">

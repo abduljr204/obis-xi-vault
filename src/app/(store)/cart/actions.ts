@@ -30,6 +30,7 @@ export async function refreshCart(lines: { productId: string; size: string }[]) 
         name: p.name,
         collection: p.collection,
         sport: p.sport,
+        kind: p.kind,
         price: p.price,
         image: p.images[0]?.url ?? null,
       },

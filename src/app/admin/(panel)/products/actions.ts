@@ -18,6 +18,7 @@ function readForm(formData: FormData) {
     name: String(formData.get("name") ?? ""),
     collection: String(formData.get("collection") ?? ""),
     sport: String(formData.get("sport") ?? ""),
+    kind: String(formData.get("kind") ?? ""),
     price: price ?? Number.NaN,
     description: String(formData.get("description") ?? ""),
     sizes: formData.getAll("sizes").map(String),

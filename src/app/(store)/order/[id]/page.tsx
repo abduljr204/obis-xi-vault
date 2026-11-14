@@ -80,6 +80,12 @@ export default async function OrderPage({ params, searchParams }: Props) {
           </ul>
           <dl className="mt-4 space-y-2 border-t border-line pt-4 text-sm">
             <div className="flex justify-between"><dt className="text-mute">Subtotal</dt><dd>{formatMoney(order.subtotal, order.currency)}</dd></div>
+            {order.discount > 0 && (
+              <div>
+                <div className="flex justify-between text-gold"><dt>Bundle savings</dt><dd>−{formatMoney(order.discount, order.currency)}</dd></div>
+                {order.discountLabel && <p className="mt-1 text-xs text-mute">{order.discountLabel}</p>}
+              </div>
+            )}
             <div className="flex justify-between"><dt className="text-mute">Shipping</dt><dd>{order.shippingCost === 0 ? "Free" : formatMoney(order.shippingCost, order.currency)}</dd></div>
             <div className="flex justify-between pt-2 text-base"><dt>Total</dt><dd className="font-display">{formatMoney(order.total, order.currency)}</dd></div>
           </dl>

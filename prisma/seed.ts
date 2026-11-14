@@ -12,6 +12,8 @@ type Seed = {
   name: string;
   collection: string;
   sport: "FOOTBALL" | "BASKETBALL";
+  /** Product type: sets the price and which bundle deals apply (see src/lib/constants.ts) */
+  kind: "JERSEY" | "RETRO" | "LONG_SLEEVE" | "BASKETBALL" | "TRACK_JACKET";
   price: number;
   sizes: string[];
   featured?: boolean;
@@ -33,7 +35,8 @@ const products: Seed[] = [
     name: "FC Barcelona Home Jersey",
     collection: "New",
     sport: "FOOTBALL",
-    price: 9999,
+    kind: "JERSEY",
+    price: 4000,
     sizes: FB,
     featured: true,
     description:
@@ -45,7 +48,8 @@ const products: Seed[] = [
     name: "Real Madrid Home Jersey",
     collection: "New",
     sport: "FOOTBALL",
-    price: 9999,
+    kind: "JERSEY",
+    price: 4000,
     sizes: FB,
     featured: true,
     description:
@@ -57,7 +61,8 @@ const products: Seed[] = [
     name: "Manchester City Home – Haaland 9",
     collection: "New",
     sport: "FOOTBALL",
-    price: 10999,
+    kind: "JERSEY",
+    price: 4000,
     sizes: FB,
     featured: true,
     description:
@@ -69,7 +74,8 @@ const products: Seed[] = [
     name: "Manchester United 2007/08 Home – Ronaldo 7 (Long Sleeve)",
     collection: "Classic",
     sport: "FOOTBALL",
-    price: 11999,
+    kind: "LONG_SLEEVE",
+    price: 5000,
     sizes: FB,
     featured: true,
     description:
@@ -81,7 +87,8 @@ const products: Seed[] = [
     name: "Argentina 2022 Home – Messi 10",
     collection: "Classic",
     sport: "FOOTBALL",
-    price: 10999,
+    kind: "RETRO",
+    price: 4500,
     sizes: FB,
     featured: true,
     description:
@@ -93,7 +100,8 @@ const products: Seed[] = [
     name: "Spain Home – Lamine Yamal 19",
     collection: "New",
     sport: "FOOTBALL",
-    price: 10999,
+    kind: "JERSEY",
+    price: 4000,
     sizes: FB,
     featured: true,
     description:
@@ -105,7 +113,8 @@ const products: Seed[] = [
     name: "Mexico Black Jersey",
     collection: "Limited",
     sport: "FOOTBALL",
-    price: 9499,
+    kind: "JERSEY",
+    price: 4000,
     sizes: FB,
     description:
       "All-black shirt with a tonal pattern woven through the body, green trim on the collar and cuffs, and a white, green and red crest.",
@@ -116,7 +125,8 @@ const products: Seed[] = [
     name: "Chivas Guadalajara Home Jersey",
     collection: "New",
     sport: "FOOTBALL",
-    price: 9499,
+    kind: "JERSEY",
+    price: 4000,
     sizes: FB,
     description:
       "The rojiblanco stripes of Guadalajara: red and white vertical stripes with a navy polo collar, button placket and navy side panels.",
@@ -127,7 +137,8 @@ const products: Seed[] = [
     name: "Club América Home Jersey",
     collection: "New",
     sport: "FOOTBALL",
-    price: 9499,
+    kind: "JERSEY",
+    price: 4000,
     sizes: FB,
     description:
       "Canary-yellow home shirt with navy collar and cuffs, a tonal crest pattern across the front and the CA crest on the chest.",
@@ -138,7 +149,8 @@ const products: Seed[] = [
     name: "France 1998 World Cup Home – Zidane 10",
     collection: "Retro",
     sport: "FOOTBALL",
-    price: 11999,
+    kind: "RETRO",
+    price: 4500,
     sizes: FB,
     featured: true,
     description:
@@ -150,7 +162,8 @@ const products: Seed[] = [
     name: "Netherlands 1988 Home – Gullit 10",
     collection: "Retro",
     sport: "FOOTBALL",
-    price: 9999,
+    kind: "RETRO",
+    price: 4500,
     sizes: FB,
     featured: true,
     description:
@@ -162,7 +175,8 @@ const products: Seed[] = [
     name: "Inter Milan 1997/98 Third – Ronaldo 10 (Long Sleeve)",
     collection: "Retro",
     sport: "FOOTBALL",
-    price: 12999,
+    kind: "LONG_SLEEVE",
+    price: 5000,
     sizes: FB,
     featured: true,
     description:
@@ -174,7 +188,8 @@ const products: Seed[] = [
     name: "Arsenal 2005/06 Highbury Home – Henry 14",
     collection: "Classic",
     sport: "FOOTBALL",
-    price: 11499,
+    kind: "RETRO",
+    price: 4500,
     sizes: FB,
     featured: true,
     description:
@@ -186,7 +201,8 @@ const products: Seed[] = [
     name: "AC Milan 2006/07 Home – Kaká 22",
     collection: "Classic",
     sport: "FOOTBALL",
-    price: 11499,
+    kind: "RETRO",
+    price: 4500,
     sizes: FB,
     description:
       "Red and black stripes with curved gold piping, a polo collar and the star above the crest, with Kaká 22 in gold on the back.",
@@ -197,7 +213,8 @@ const products: Seed[] = [
     name: "West Germany 1990 Away Jersey",
     collection: "Retro",
     sport: "FOOTBALL",
-    price: 9999,
+    kind: "RETRO",
+    price: 4500,
     sizes: FB,
     description:
       "The green away shirt from the summer West Germany won the World Cup. Bold green and white geometric print, a fold-over collar and white three-stripe shoulders.",
@@ -208,7 +225,8 @@ const products: Seed[] = [
     name: "Real Madrid 1998–2000 Home Jersey",
     collection: "Retro",
     sport: "FOOTBALL",
-    price: 10499,
+    kind: "RETRO",
+    price: 4500,
     sizes: FB,
     description:
       "White home shirt from the era of the club's eighth European Cup, with a navy fold-over collar trimmed in gold, navy three-stripe shoulders and a Champions League patch on the sleeve.",
@@ -219,7 +237,8 @@ const products: Seed[] = [
     name: "Paris Saint-Germain Home – Dembélé 10",
     collection: "New",
     sport: "FOOTBALL",
-    price: 10999,
+    kind: "JERSEY",
+    price: 4000,
     sizes: FB,
     description:
       "Navy home shirt with the famous red centre stripe edged in white, red and white cuffs, and Dembélé 10 on the back.",
@@ -230,7 +249,8 @@ const products: Seed[] = [
     name: "Real Madrid 2012/13 Away – Ronaldo 7",
     collection: "Classic",
     sport: "FOOTBALL",
-    price: 11499,
+    kind: "RETRO",
+    price: 4500,
     sizes: FB,
     featured: true,
     description:
@@ -242,7 +262,8 @@ const products: Seed[] = [
     name: "Inter Miami Home – Messi 10",
     collection: "New",
     sport: "FOOTBALL",
-    price: 10999,
+    kind: "JERSEY",
+    price: 4000,
     sizes: FB,
     featured: true,
     description:
@@ -256,7 +277,8 @@ const products: Seed[] = [
     name: "New York Knicks Jalen Brunson 11 Icon Jersey",
     collection: "New",
     sport: "BASKETBALL",
-    price: 10999,
+    kind: "BASKETBALL",
+    price: 6000,
     sizes: BB,
     featured: true,
     description:
@@ -268,7 +290,8 @@ const products: Seed[] = [
     name: "New York Knicks Jalen Brunson 11 City Edition Jersey",
     collection: "Metro",
     sport: "BASKETBALL",
-    price: 10999,
+    kind: "BASKETBALL",
+    price: 6000,
     sizes: BB,
     description:
       "Blue pinstripes with orange trim and black side panels, a layered New York wordmark, an NYC patch on the chest and Brunson 11 on the back.",
@@ -279,7 +302,8 @@ const products: Seed[] = [
     name: "Golden State Warriors Stephen Curry 30 Statement Jersey",
     collection: "New",
     sport: "BASKETBALL",
-    price: 10999,
+    kind: "BASKETBALL",
+    price: 6000,
     sizes: BB,
     featured: true,
     description:
@@ -291,7 +315,8 @@ const products: Seed[] = [
     name: "Los Angeles Lakers Kobe Bryant Black Mamba Jersey",
     collection: "Metro",
     sport: "BASKETBALL",
-    price: 11499,
+    kind: "BASKETBALL",
+    price: 6000,
     sizes: BB,
     featured: true,
     description:
@@ -303,7 +328,8 @@ const products: Seed[] = [
     name: "Miami Heat Dwyane Wade 3 Vice City Edition Jersey",
     collection: "Metro",
     sport: "BASKETBALL",
-    price: 10499,
+    kind: "BASKETBALL",
+    price: 6000,
     sizes: BB,
     description:
       "The black Miami Vice look: neon pink and sky-blue trim, the Miami script across the chest and Wade 3 in pink on the back.",
@@ -314,7 +340,8 @@ const products: Seed[] = [
     name: "Chicago Bulls 1997/98 Michael Jordan 23 Jersey",
     collection: "Retro",
     sport: "BASKETBALL",
-    price: 11999,
+    kind: "BASKETBALL",
+    price: 6000,
     sizes: BB,
     featured: true,
     description:
@@ -326,7 +353,8 @@ const products: Seed[] = [
     name: "Philadelphia 76ers 2000/01 Allen Iverson 3 Jersey",
     collection: "Retro",
     sport: "BASKETBALL",
-    price: 10999,
+    kind: "BASKETBALL",
+    price: 6000,
     sizes: BB,
     featured: true,
     description:
@@ -338,7 +366,8 @@ const products: Seed[] = [
     name: "Toronto Raptors 1998/99 Vince Carter 15 Jersey",
     collection: "Retro",
     sport: "BASKETBALL",
-    price: 10499,
+    kind: "BASKETBALL",
+    price: 6000,
     sizes: BB,
     description:
       "White home jersey from Carter's rookie season, with jagged pinstripes, the red dinosaur logo, purple trim and Carter 15 on the back.",
@@ -349,7 +378,8 @@ const products: Seed[] = [
     name: "Orlando Magic 1994/95 Penny Hardaway 1 Jersey",
     collection: "Retro",
     sport: "BASKETBALL",
-    price: 10499,
+    kind: "BASKETBALL",
+    price: 6000,
     sizes: BB,
     description:
       "Royal blue with white pinstripes and black-and-white trim, the Orlando star wordmark and Hardaway 1 on the back.",
@@ -360,7 +390,8 @@ const products: Seed[] = [
     name: "Phoenix Suns Charles Barkley 34 Purple Jersey",
     collection: "Retro",
     sport: "BASKETBALL",
-    price: 10499,
+    kind: "BASKETBALL",
+    price: 6000,
     sizes: BB,
     description:
       "90s Suns road purple with orange and black trim, the sunburst-and-streaks design across the front and Barkley 34 on the back.",
@@ -371,7 +402,8 @@ const products: Seed[] = [
     name: "Paris Basketball Jersey",
     collection: "New",
     sport: "BASKETBALL",
-    price: 8999,
+    kind: "BASKETBALL",
+    price: 6000,
     sizes: BB,
     description:
       "Black jersey with blurred red and blue stripes rising from the hem, a striped V-neck, white side bars and the Paris wordmark. Plain back with a small club emblem.",
@@ -382,7 +414,8 @@ const products: Seed[] = [
     name: "Philadelphia 76ers Tyrese Maxey 0 Icon Jersey",
     collection: "New",
     sport: "BASKETBALL",
-    price: 10999,
+    kind: "BASKETBALL",
+    price: 6000,
     sizes: BB,
     description:
       "Royal blue with red and white trim, the Phila wordmark, white side panels with three stars and Maxey 0 on the back.",
@@ -393,7 +426,8 @@ const products: Seed[] = [
     name: "Cleveland Cavaliers LeBron James 23 Black Sleeved Jersey",
     collection: "Classic",
     sport: "BASKETBALL",
-    price: 10499,
+    kind: "BASKETBALL",
+    price: 6000,
     sizes: BB,
     description:
       "Short-sleeved black alternate with a wine and gold striped V-neck, the big C on the chest with 23 above it, and James 23 on the back.",
@@ -404,7 +438,8 @@ const products: Seed[] = [
     name: "Georgetown Hoyas 1995/96 Allen Iverson 3 Jersey",
     collection: "Retro",
     sport: "BASKETBALL",
-    price: 10499,
+    kind: "BASKETBALL",
+    price: 6000,
     sizes: BB,
     description:
       "Grey college jersey with navy and black trim, kente-cloth side panels, the Hoyas wordmark and Iverson 3 on the back.",
@@ -415,7 +450,8 @@ const products: Seed[] = [
     name: "Toronto Raptors 1999/00 Vince Carter 15 Road Jersey",
     collection: "Retro",
     sport: "BASKETBALL",
-    price: 10499,
+    kind: "BASKETBALL",
+    price: 6000,
     sizes: BB,
     description:
       "Purple road jersey with the arched Toronto wordmark, black side panels with silver stripes and red piping, and Carter 15 on the back.",
@@ -426,7 +462,8 @@ const products: Seed[] = [
     name: "Toronto Raptors 1998/99 Vince Carter 15 Road Jersey",
     collection: "Retro",
     sport: "BASKETBALL",
-    price: 10499,
+    kind: "BASKETBALL",
+    price: 6000,
     sizes: BB,
     description:
       "Purple road jersey from Carter's rookie season, with jagged pinstripes, the red dinosaur logo, red and black trim and Carter 15 on the back.",
@@ -437,7 +474,8 @@ const products: Seed[] = [
     name: "Minnesota Timberwolves Anthony Edwards 5 Classic Edition Jersey",
     collection: "Metro",
     sport: "BASKETBALL",
-    price: 10999,
+    kind: "BASKETBALL",
+    price: 6000,
     sizes: BB,
     description:
       "Black throwback design with evergreen-tree trim around the collar and armholes, green tree panels down the sides, the Timberwolves wordmark and Edwards 5 on the back.",
@@ -448,7 +486,8 @@ const products: Seed[] = [
     name: "Houston Rockets Kevin Durant 7 Icon Jersey",
     collection: "New",
     sport: "BASKETBALL",
-    price: 10999,
+    kind: "BASKETBALL",
+    price: 6000,
     sizes: BB,
     description: "Rockets red with black side panels and white piping, the Rockets wordmark across the chest and Durant 7 on the back.",
     images: photos("rockets-durant-7"),
@@ -458,7 +497,8 @@ const products: Seed[] = [
     name: "San Antonio Spurs Victor Wembanyama 1 Icon Jersey",
     collection: "New",
     sport: "BASKETBALL",
-    price: 10999,
+    kind: "BASKETBALL",
+    price: 6000,
     sizes: BB,
     featured: true,
     description:
@@ -470,12 +510,124 @@ const products: Seed[] = [
     name: "Los Angeles Lakers Luka Dončić 77 Icon Jersey",
     collection: "New",
     sport: "BASKETBALL",
-    price: 10999,
+    kind: "BASKETBALL",
+    price: 6000,
     sizes: BB,
     featured: true,
     description:
       "Lakers gold with purple side panels and white trim, the Lakers script across the chest and Dončić 77 on the back.",
     images: photos("lakers-doncic-77"),
+  },
+  // ───────────── Track jackets (jacket only) ─────────────
+  {
+    slug: "ac-milan-white-track-jacket",
+    name: "AC Milan White Track Jacket",
+    collection: "Track Jackets",
+    sport: "FOOTBALL",
+    kind: "TRACK_JACKET",
+    price: 6000,
+    sizes: FB,
+    featured: true,
+    description:
+      "White full-zip track jacket with a stand-up collar, black and red bands across the chest and back, red, black and white three-stripe sleeves and the club crest on the chest. Jacket only.",
+    images: photos("ac-milan-track-jacket"),
+  },
+  {
+    slug: "argentina-white-track-jacket",
+    name: "Argentina White Track Jacket",
+    collection: "Track Jackets",
+    sport: "FOOTBALL",
+    kind: "TRACK_JACKET",
+    price: 6000,
+    sizes: FB,
+    featured: true,
+    description:
+      "White full-zip track jacket with sky-blue and white three-stripe sleeves, zip pockets, a gold logo and the AFA crest with three stars. Jacket only.",
+    images: photos("argentina-track-jacket"),
+  },
+  {
+    slug: "brazil-yellow-track-jacket",
+    name: "Brazil Yellow Track Jacket",
+    collection: "Track Jackets",
+    sport: "FOOTBALL",
+    kind: "TRACK_JACKET",
+    price: 6000,
+    sizes: FB,
+    description:
+      "Canary-yellow full-zip jacket with a green collar, royal-blue cuffs and hem, BRASIL down the sleeves and the CBF crest on the chest. Jacket only.",
+    images: photos("brazil-track-jacket"),
+  },
+  {
+    slug: "france-blue-pattern-track-jacket",
+    name: "France Blue Pattern Track Jacket",
+    collection: "Track Jackets",
+    sport: "FOOTBALL",
+    kind: "TRACK_JACKET",
+    price: 6000,
+    sizes: FB,
+    description:
+      "Navy full-zip jacket covered in a bright blue diagonal pattern, with a gold logo and the gold rooster crest with two stars. Jacket only.",
+    images: photos("france-track-jacket"),
+  },
+  {
+    slug: "manchester-city-marble-track-jacket",
+    name: "Manchester City Marble Track Jacket",
+    collection: "Track Jackets",
+    sport: "FOOTBALL",
+    kind: "TRACK_JACKET",
+    price: 6000,
+    sizes: FB,
+    description:
+      "Lightweight full-zip jacket in a grey and white marble print with sky-blue panels, elastic cuffs, a drawcord hem and the club crest on the chest. Jacket only.",
+    images: photos("man-city-track-jacket"),
+  },
+  {
+    slug: "portugal-burgundy-track-jacket",
+    name: "Portugal Burgundy Track Jacket",
+    collection: "Track Jackets",
+    sport: "FOOTBALL",
+    kind: "TRACK_JACKET",
+    price: 6000,
+    sizes: FB,
+    description:
+      "Burgundy full-zip jacket with teal patterned tape down the sleeves, teal piping and the Portugal crest on the chest. Jacket only.",
+    images: photos("portugal-track-jacket"),
+  },
+  {
+    slug: "paris-saint-germain-blue-track-jacket",
+    name: "Paris Saint-Germain Blue Track Jacket",
+    collection: "Track Jackets",
+    sport: "FOOTBALL",
+    kind: "TRACK_JACKET",
+    price: 6000,
+    sizes: FB,
+    description:
+      "Royal-blue full-zip jacket with a red zip, a red and navy panel on the sleeve, PARIS on the cuff and the club crest on the chest. Jacket only.",
+    images: photos("psg-blue-track-jacket"),
+  },
+  {
+    slug: "paris-saint-germain-burgundy-eiffel-track-jacket",
+    name: "Paris Saint-Germain Burgundy Eiffel Track Jacket",
+    collection: "Track Jackets",
+    sport: "FOOTBALL",
+    kind: "TRACK_JACKET",
+    price: 6000,
+    sizes: FB,
+    description:
+      "Burgundy full-zip jacket with an Eiffel Tower line print, dark sleeves with gold stripes and a gold club crest. Jacket only.",
+    images: photos("psg-eiffel-track-jacket"),
+  },
+  {
+    slug: "spain-white-retro-track-jacket",
+    name: "Spain White Retro Track Jacket",
+    collection: "Track Jackets",
+    sport: "FOOTBALL",
+    kind: "TRACK_JACKET",
+    price: 6000,
+    sizes: FB,
+    description:
+      "Lightweight white full-zip jacket with maroon and white three-stripe sleeves, the trefoil logo and the Spain crest with one star in maroon. Jacket only.",
+    images: photos("spain-retro-track-jacket"),
   },
 ];
 
@@ -524,6 +676,7 @@ async function main() {
       name: p.name,
       collection: p.collection,
       sport: p.sport,
+      kind: p.kind,
       price: p.price,
       description: p.description,
       sizes: JSON.stringify(p.sizes),

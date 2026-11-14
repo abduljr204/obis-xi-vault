@@ -4,13 +4,15 @@ import Link from "next/link";
 import { startTransition, useActionState, useEffect, useRef, useState } from "react";
 import type { ProductFormState } from "@/app/admin/(panel)/products/actions";
 import { useToast } from "@/components/ui/Toast";
-import { ALL_SIZES, SPORTS, SUGGESTED_COLLECTIONS } from "@/lib/constants";
+import { ALL_SIZES, PRODUCT_KINDS, SPORTS, SUGGESTED_COLLECTIONS, productKind } from "@/lib/constants";
+import { priceToInput } from "@/lib/money";
 import { cn } from "@/lib/utils";
 
 type Initial = {
   name: string;
   collection: string;
   sport: string;
+  kind: string;
   price: string;
   description: string;
   sizes: string[];
@@ -19,7 +21,7 @@ type Initial = {
   images: { id: string; url: string }[];
 };
 
-const EMPTY: Initial = { name: "", collection: "", sport: "", price: "", description: "", sizes: ["S", "M", "L", "XL"], featured: false, active: true, images: [] };
+const EMPTY: Initial = { name: "", collection: "", sport: "", kind: "", price: "", description: "", sizes: ["S", "M", "L", "XL"], featured: false, active: true, images: [] };
 const MAX_MB = 5;
 const ACCEPT = "image/jpeg,image/png,image/webp,image/gif,image/avif";
 
@@ -44,6 +46,9 @@ export function ProductForm({
   const [removed, setRemoved] = useState<string[]>([]);
   const [cover, setCover] = useState(initial.images[0]?.id ?? "");
   const [sizes, setSizes] = useState<string[]>(initial.sizes);
+  const [kind, setKind] = useState(initial.kind);
+  const [sport, setSport] = useState(initial.sport);
+  const [price, setPrice] = useState(initial.price);
   const fe = state.fieldErrors ?? {};
 
   useEffect(() => {
@@ -87,7 +92,34 @@ export function ProductForm({
             <input id="name" name="name" defaultValue={initial.name} required maxLength={120} className="input" aria-invalid={!!fe.name} placeholder="e.g. Vault Metro Home Jersey" />
             {fe.name && <p className="field-error">{fe.name}</p>}
           </div>
-          <div className="grid gap-6 sm:grid-cols-3">
+          <div className="grid gap-6 sm:grid-cols-2">
+            <div>
+              <label htmlFor="kind" className="field-label">Type</label>
+              <select
+                id="kind"
+                name="kind"
+                value={kind}
+                onChange={(e) => {
+                  const next = productKind(e.target.value);
+                  const previousDefault = productKind(kind)?.defaultPrice;
+                  // Fill in the type's standard price unless a custom price was typed.
+                  if (next && (!price.trim() || (previousDefault !== undefined && price === priceToInput(previousDefault, currency)))) {
+                    setPrice(priceToInput(next.defaultPrice, currency));
+                  }
+                  if (next) setSport(next.value === "BASKETBALL" ? "BASKETBALL" : "FOOTBALL");
+                  setKind(e.target.value);
+                }}
+                required
+                className="input"
+                aria-invalid={!!fe.kind}
+              >
+                <option value="" disabled>Choose…</option>
+                {PRODUCT_KINDS.map((k) => (
+                  <option key={k.value} value={k.value}>{k.label} ({priceToInput(k.defaultPrice, currency)})</option>
+                ))}
+              </select>
+              {fe.kind ? <p className="field-error">{fe.kind}</p> : <p className="mt-1.5 text-xs text-faint">Sets the standard price and which bundle deals apply.</p>}
+            </div>
             <div>
               <label htmlFor="collection" className="field-label">Style / collection</label>
               <input id="collection" name="collection" list="collections" defaultValue={initial.collection} required maxLength={40} className="input" aria-invalid={!!fe.collection} placeholder="Metro, Classic, New…" />
@@ -98,7 +130,7 @@ export function ProductForm({
             </div>
             <div>
               <label htmlFor="sport" className="field-label">Sport</label>
-              <select id="sport" name="sport" defaultValue={initial.sport} required className="input" aria-invalid={!!fe.sport}>
+              <select id="sport" name="sport" value={sport} onChange={(e) => setSport(e.target.value)} required className="input" aria-invalid={!!fe.sport}>
                 <option value="" disabled>Choose…</option>
                 {SPORTS.map((s) => <option key={s.value} value={s.value}>{s.label}</option>)}
               </select>
@@ -106,7 +138,7 @@ export function ProductForm({
             </div>
             <div>
               <label htmlFor="price" className="field-label">Price ({currency.toUpperCase()})</label>
-              <input id="price" name="price" inputMode="decimal" defaultValue={initial.price} required className="input" aria-invalid={!!fe.price} placeholder="79.99" />
+              <input id="price" name="price" inputMode="decimal" value={price} onChange={(e) => setPrice(e.target.value)} required className="input" aria-invalid={!!fe.price} placeholder="40.00" />
               {fe.price && <p className="field-error">{fe.price}</p>}
             </div>
           </div>

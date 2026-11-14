@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { ALL_SIZES, MAX_CART_LINES, MAX_QTY_PER_LINE, MAX_REQUEST_QTY, ORDER_STATUS_VALUES, REQUEST_STATUS_VALUES, SPORT_VALUES } from "./constants";
+import { ALL_SIZES, MAX_CART_LINES, MAX_QTY_PER_LINE, MAX_REQUEST_QTY, ORDER_STATUS_VALUES, PRODUCT_KIND_VALUES, REQUEST_STATUS_VALUES, SPORT_VALUES } from "./constants";
 
 export type FieldErrors = Record<string, string>;
 
@@ -81,6 +81,7 @@ export const productSchema = z.object({
   name: text("Name", 120),
   collection: text("Style / collection", 40),
   sport: z.enum(SPORT_VALUES, { error: "Choose a sport" }),
+  kind: z.enum(PRODUCT_KIND_VALUES, { error: "Choose a type" }),
   price: z.number({ error: "Enter a valid price" }).int().min(50, "Price must be at least 0.50").max(10_000_00, "Price is too high"),
   description: text("Description", 4000),
   sizes: z.array(z.enum(ALL_SIZES)).min(1, "Pick at least one size"),

@@ -29,6 +29,22 @@ export function sportFromSlug(slug?: string | null): Sport | undefined {
   return SPORTS.find((s) => s.slug === slug.toLowerCase() || s.value === slug.toUpperCase())?.value;
 }
 
+// ── Product types ────────────────────────────────────────────
+// The default price is filled in when you pick a type in the admin form; each product can still have its own price.
+// Bundle deals (src/lib/bundles.ts) are based on these types.
+export const PRODUCT_KINDS = [
+  { value: "JERSEY", label: "Soccer jersey", plural: "soccer jerseys", defaultPrice: 4000 },
+  { value: "RETRO", label: "Retro soccer jersey", plural: "retro jerseys", defaultPrice: 4500 },
+  { value: "LONG_SLEEVE", label: "Long-sleeve soccer jersey", plural: "long-sleeve jerseys", defaultPrice: 5000 },
+  { value: "BASKETBALL", label: "Basketball jersey", plural: "basketball jerseys", defaultPrice: 6000 },
+  { value: "TRACK_JACKET", label: "Track jacket", plural: "track jackets", defaultPrice: 6000 },
+] as const;
+export type ProductKind = (typeof PRODUCT_KINDS)[number]["value"];
+export const PRODUCT_KIND_VALUES = PRODUCT_KINDS.map((k) => k.value) as [ProductKind, ...ProductKind[]];
+export function productKind(value: string | null | undefined) {
+  return PRODUCT_KINDS.find((k) => k.value === value);
+}
+
 export const ALL_SIZES = ["XS", "S", "M", "L", "XL", "XXL", "3XL"] as const;
 export type Size = (typeof ALL_SIZES)[number];
 

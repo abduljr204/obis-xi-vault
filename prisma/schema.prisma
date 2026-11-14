@@ -27,6 +27,8 @@ model Product {
   collection  String
   /// "FOOTBALL" | "BASKETBALL"
   sport       String
+  /// Product type, used for bundle deals: JERSEY | RETRO | LONG_SLEEVE | BASKETBALL | TRACK_JACKET
+  kind        String         @default("JERSEY")
   /// Price in the smallest currency unit (cents)
   price       Int
   description String
@@ -69,7 +71,12 @@ model Order {
   stripePaymentId String?
   currency        String
   subtotal        Int
+  /// Bundle savings taken off the subtotal (cents)
+  discount        Int         @default(0)
+  /// Which bundles were applied, e.g. "3 retro jerseys for CA$125.00"
+  discountLabel   String?
   shippingCost    Int
+  /// subtotal - discount + shippingCost
   total           Int
 
   customerName    String
