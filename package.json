@@ -12,6 +12,7 @@
     "db:seed": "tsx --env-file=.env prisma/seed.ts",
     "db:reset": "prisma db push --force-reset && tsx --env-file=.env prisma/seed.ts",
     "admin:create": "tsx --env-file=.env scripts/create-admin.ts",
+    "admin:create:live": "node scripts/create-live-admin.mjs",
     "setup": "node scripts/setup.mjs"
   },
   "prisma": {

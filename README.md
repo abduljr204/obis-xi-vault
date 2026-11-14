@@ -80,6 +80,8 @@ npm run admin:create
 
 Enter your email and a password of at least 10 characters, then sign in at **http://localhost:3000/admin**. Run the same command again with the same email to reset a forgotten password. You can also run it non-interactively: `npm run admin:create -- you@example.com "your-strong-password"`.
 
+**Admin login for the live site:** `npm run admin:create` uses your local test database (`.env`). For the live site, put the live database's `DATABASE_URL` (Vercel → Storage → the database connected to Production → `.env.local` tab → Show secret) in a file named `.env.live.local`, then run `npm run admin:create:live`. It refuses to run if the address is your test database, and shows the live jersey and admin counts first. `npm run admin:create:live -- --check` only shows the counts.
+
 ## Configure payments (Stripe)
 
 Without Stripe keys the site runs in **demo mode** on your computer: orders are saved and marked as paid with a simulated payment, so you can try the whole flow. Demo mode **never** runs in production; there, checkout stays disabled until Stripe is configured.
