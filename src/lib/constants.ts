@@ -1,6 +1,18 @@
 export const STORE_NAME = "Obi's XI Vault";
 export const STORE_TAGLINE = "Football Jerseys × Classics × More";
 
+// ── Store details shown on the contact and policy pages ─────
+export const CONTACT_EMAIL = "shop.192004@gmail.com";
+export const INSTAGRAM_HANDLE = "obixivault";
+export const INSTAGRAM_URL = `https://www.instagram.com/${INSTAGRAM_HANDLE}/`;
+/** Typical time from order to delivery. */
+export const DELIVERY_TIME = "10–14 days";
+/** Days after delivery a customer has to report a wrong, damaged or defective item. */
+export const PROBLEM_REPORT_DAYS = 7;
+/** Days after shipping before a parcel that hasn't arrived counts as lost. */
+export const LOST_PARCEL_DAYS = 30;
+export const POLICIES_UPDATED = "November 14, 2026";
+
 export const SPORTS = [
   { value: "FOOTBALL", label: "Football", slug: "football" },
   { value: "BASKETBALL", label: "Basketball", slug: "basketball" },

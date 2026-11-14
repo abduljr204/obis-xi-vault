@@ -25,3 +25,13 @@ export function parseSizes(json: string): string[] {
 export function first(v: string | string[] | undefined) {
   return Array.isArray(v) ? v[0] : v;
 }
+
+/** ["CA","US"] → "Canada and the United States" */
+export function countryList(codes: string[]) {
+  const names = codes.map((c) => {
+    const name = new Intl.DisplayNames(["en"], { type: "region" }).of(c) ?? c;
+    return /^(United|Netherlands|Philippines|Bahamas|Gambia)/.test(name) ? `the ${name}` : name;
+  });
+  if (names.length <= 1) return names[0] ?? "";
+  return `${names.slice(0, -1).join(", ")} and ${names[names.length - 1]}`;
+}

@@ -209,6 +209,12 @@ export function CheckoutForm({ countries, flatRate, freeThreshold, paymentMode, 
             ? "You'll be taken to Stripe's secure page to pay. We never see or store your card details."
             : "Card details are never stored on our servers."}
         </p>
+        <p className="mt-3 text-center text-xs leading-relaxed text-faint">
+          By paying, you agree to our{" "}
+          <Link href="/terms" className="underline underline-offset-4 hover:text-ivory">Terms of sale</Link> and{" "}
+          <Link href="/returns" className="underline underline-offset-4 hover:text-ivory">Returns policy</Link>. All sales are final unless
+          something is wrong with your order.
+        </p>
       </aside>
     </form>
   );
