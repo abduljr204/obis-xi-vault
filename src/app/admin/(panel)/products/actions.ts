@@ -64,6 +64,7 @@ export async function createProduct(_prev: ProductFormState, formData: FormData)
   try {
     urls = await storeFiles(files);
   } catch (err) {
+    if (!(err instanceof UploadError)) console.error("[upload] photo upload failed", err);
     return { error: err instanceof UploadError ? err.message : "Photo upload failed. Please try again.", fieldErrors: { images: "Upload failed" } };
   }
 
@@ -99,6 +100,7 @@ export async function updateProduct(id: string, _prev: ProductFormState, formDat
   try {
     urls = await storeFiles(files);
   } catch (err) {
+    if (!(err instanceof UploadError)) console.error("[upload] photo upload failed", err);
     return { error: err instanceof UploadError ? err.message : "Photo upload failed. Please try again.", fieldErrors: { images: "Upload failed" } };
   }
 

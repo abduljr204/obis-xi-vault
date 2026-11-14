@@ -30,8 +30,25 @@ export async function saveImage(file: File): Promise<string> {
 
   if (process.env.BLOB_READ_WRITE_TOKEN) {
     const { put } = await import("@vercel/blob");
-    const blob = await put(`products/${name}`, bytes, { access: "public", contentType: file.type });
-    return blob.url;
+    try {
+      const blob = await put(`products/${name}`, bytes, { access: "public", contentType: file.type });
+      return blob.url;
+    } catch (err) {
+      console.error("[upload] Vercel Blob rejected the photo", err);
+      const reason = err instanceof Error ? err.message : String(err);
+      throw new UploadError(
+        /private/i.test(reason)
+          ? "Photo storage is set to Private. Product photos need a Public Blob store (Vercel → Storage)."
+          : `Photo storage rejected the upload: ${reason}`,
+      );
+    }
+  }
+
+  // On Vercel the server's disk is read-only, so photos must go to Blob storage.
+  if (process.env.VERCEL) {
+    throw new UploadError(
+      "Photo storage isn't connected. In Vercel → Storage, connect a Public Blob store with a read-write token (BLOB_READ_WRITE_TOKEN), then redeploy.",
+    );
   }
 
   await mkdir(UPLOAD_DIR, { recursive: true });
