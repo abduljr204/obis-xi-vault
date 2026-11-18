@@ -150,6 +150,21 @@ Gmail allows a few hundred emails a day, plenty for a small store.
 
 Put the same settings in Vercel → Settings → Environment Variables, then redeploy.
 
+## Hosting on Cloudflare (current setup, US$5/month)
+
+The live store runs on **Cloudflare Workers** (Workers Paid plan) using the OpenNext adapter:
+
+| Part | Where |
+|---|---|
+| Store | Worker `obis-xi-vault` (settings in `wrangler.jsonc`) |
+| Database | Prisma Postgres, reached through **Hyperdrive** (binding `HYPERDRIVE`) for fast pooled connections |
+| Uploaded photos | R2 bucket `obis-xi-vault-photos` (binding `PHOTOS`), served from `/media/...` |
+| Secrets | Cloudflare dashboard → Workers & Pages → obis-xi-vault → Settings → Variables and Secrets: `DATABASE_URL`, `AUTH_SECRET`, `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, `SMTP_*`, `EMAIL_FROM`, `ORDER_NOTIFY_EMAIL` |
+
+**Publish an update:** run `npx wrangler login` once on your computer, then `npm run cf:deploy`. The store's public address is set at the top of `scripts/cf-deploy.mjs`; update it when the domain changes. `npm run cf:preview` runs the Cloudflare version locally (it reads secrets from a `.dev.vars` file, which git ignores).
+
+The same code still runs on Vercel and on your computer: there, the database uses `DATABASE_URL` directly and photos go to Vercel Blob or the local `uploads/` folder.
+
 ## Deploy (recommended: Vercel + Neon Postgres)
 
 1. **Push the code to GitHub** (see below).
