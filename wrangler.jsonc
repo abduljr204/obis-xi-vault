@@ -1,0 +1,21 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "obis-xi-vault",
+  "main": ".open-next/worker.js",
+  "compatibility_date": "2026-11-01",
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "assets": { "directory": ".open-next/assets", "binding": "ASSETS" },
+  "services": [{ "binding": "WORKER_SELF_REFERENCE", "service": "obis-xi-vault" }],
+  // Connection pooling for the database (Cloudflare Hyperdrive), so pages don't reconnect on every query.
+  "hyperdrive": [{ "binding": "HYPERDRIVE", "id": "92a453aedb164679ab95c2b3cad1d5b0" }],
+  // Photos uploaded from the admin area (Cloudflare R2, free up to 10 GB).
+  "r2_buckets": [{ "binding": "PHOTOS", "bucket_name": "obis-xi-vault-photos" }],
+  // Store settings (not secret). Secrets (database, Stripe, email, login) are set with: npx wrangler secret put NAME
+  "vars": {
+    "STORE_CURRENCY": "cad",
+    "SHIPPING_COUNTRIES": "CA,US",
+    "SHIPPING_FLAT_RATE": "500",
+    "FREE_SHIPPING_THRESHOLD": "0"
+  },
+  "observability": { "enabled": true }
+}

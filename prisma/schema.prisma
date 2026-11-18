@@ -3,7 +3,8 @@
 // a separate database for your computer and for the live site.
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
 }
 
 datasource db {

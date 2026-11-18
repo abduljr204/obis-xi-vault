@@ -1,6 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  // Lets OpenNext include and patch the Prisma client for Cloudflare Workers.
+  serverExternalPackages: ["@prisma/client", ".prisma/client"],
   experimental: {
     // Allows admins to upload several product photos in one form submit.
     serverActions: { bodySizeLimit: "25mb" },
@@ -24,3 +26,4 @@ const nextConfig: NextConfig = {
 };
 
 export default nextConfig;
+
